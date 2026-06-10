@@ -168,166 +168,59 @@ function generatePDF(d) {
   doc.text(sub, ML, y);
   y += 7;
 
-  // ── Funciones de dibujo de íconos (path vectorial directo)
-
-  const drawIcon_phone = (ox, oy) => {
+  // ── Dibujar íconos geométricos en negro + texto
+  const iconSize = 3.0;
+  const drawInfoRow = (drawFn, text) => {
     doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(255, 255, 255);
-    doc.setLineWidth(0);
-    doc.moveTo(ox + 2.3289, oy + 1.9181);
-    doc.curveTo(ox + 2.2892, oy + 1.8984, ox + 2.0946, oy + 1.8026, ox + 2.0582, oy + 1.7892);
-    doc.curveTo(ox + 2.0218, oy + 1.776, ox + 1.9955, oy + 1.7695, ox + 1.969, oy + 1.8092);
-    doc.curveTo(ox + 1.9427, oy + 1.8489, ox + 1.8669, oy + 1.9381, ox + 1.8436, oy + 1.9644);
-    doc.curveTo(ox + 1.8207, oy + 1.9909, ox + 1.7974, oy + 1.9942, ox + 1.758, oy + 1.9745);
-    doc.curveTo(ox + 1.7183, oy + 1.9545, ox + 1.5906, oy + 1.9125, ox + 1.4394, oy + 1.7777);
-    doc.curveTo(ox + 1.3216, oy + 1.6727, ox + 1.2419, oy + 1.5431, ox + 1.2189, oy + 1.5034);
-    doc.curveTo(ox + 1.1959, oy + 1.4637, ox + 1.2166, oy + 1.4423, ox + 1.2363, oy + 1.4227);
-    doc.curveTo(ox + 1.254, oy + 1.4049, ox + 1.276, oy + 1.3764, ox + 1.2957, oy + 1.3531);
-    doc.curveTo(ox + 1.3157, oy + 1.3301, ox + 1.3223, oy + 1.3134, ox + 1.3354, oy + 1.2868);
-    doc.curveTo(ox + 1.3485, oy + 1.2606, ox + 1.3423, oy + 1.2376, ox + 1.3321, oy + 1.2176);
-    doc.curveTo(ox + 1.3223, oy + 1.1979, ox + 1.2429, oy + 1.0027, ox + 1.21, oy + 0.9236);
-    doc.curveTo(ox + 1.1779, oy + 0.8462, ox + 1.1451, oy + 0.857, ox + 1.1208, oy + 0.8554);
-    doc.curveTo(ox + 1.0978, oy + 0.8544, ox + 1.0713, oy + 0.8541, ox + 1.045, oy + 0.8541);
-    doc.curveTo(ox + 1.0184, oy + 0.8541, ox + 0.9755, oy + 0.8639, ox + 0.9394, oy + 0.9039);
-    doc.curveTo(ox + 0.9029, oy + 0.9433, ox + 0.8006, oy + 1.0391, ox + 0.8006, oy + 1.2343);
-    doc.curveTo(ox + 0.8006, oy + 1.4292, ox + 0.9426, oy + 1.6176, ox + 0.9623, oy + 1.6438);
-    doc.curveTo(ox + 0.9823, oy + 1.6704, ox + 1.2419, oy + 2.0703, ox + 1.6392, oy + 2.2419);
-    doc.curveTo(ox + 1.7337, oy + 2.2829, ox + 1.8072, oy + 2.3072, ox + 1.8649, oy + 2.3253);
-    doc.curveTo(ox + 1.9598, oy + 2.3555, ox + 2.0461, oy + 2.3512, ox + 2.1143, oy + 2.341);
-    doc.curveTo(ox + 2.1904, oy + 2.3299, ox + 2.3486, oy + 2.2452, ox + 2.3817, oy + 2.1527);
-    doc.curveTo(ox + 2.4148, oy + 2.0602, ox + 2.4148, oy + 1.9808, ox + 2.4047, oy + 1.9644);
-    doc.curveTo(ox + 2.3948, oy + 1.948, ox + 2.3686, oy + 1.9381, ox + 2.3289, oy + 1.9181);
-    doc.moveTo(ox + 1.6061, oy + 2.905);
-    doc.lineTo(ox + 1.6057, oy + 2.905);
-    doc.curveTo(ox + 1.3698, oy + 2.905, ox + 1.1382, oy + 2.8414, ox + 0.9351, oy + 2.7213);
-    doc.lineTo(ox + 0.8869, oy + 2.6928);
-    doc.lineTo(ox + 0.3881, oy + 2.8237);
-    doc.lineTo(ox + 0.5214, oy + 2.3374);
-    doc.lineTo(ox + 0.4899, oy + 2.2875);
-    doc.curveTo(ox + 0.358, oy + 2.0776, ox + 0.2884, oy + 1.8344, ox + 0.2887, oy + 1.5864);
-    doc.curveTo(ox + 0.2887, oy + 0.86, ox + 0.88, oy + 0.269, ox + 1.6067, oy + 0.269);
-    doc.curveTo(ox + 1.9585, oy + 0.269, ox + 2.2895, oy + 0.4062, ox + 2.5382, oy + 0.6552);
-    doc.curveTo(ox + 2.7859, oy + 0.902, ox + 2.9247, oy + 1.2376, ox + 2.9237, oy + 1.5874);
-    doc.curveTo(ox + 2.9234, oy + 2.3138, ox + 2.3325, oy + 2.905, ox + 1.6061, oy + 2.905);
-    doc.moveTo(ox + 2.7275, oy + 0.4659);
-    doc.curveTo(ox + 2.4309, oy + 0.1673, ox + 2.027, oy + 0.0, ox + 1.6061, oy + 0.001);
-    doc.curveTo(ox + 0.7323, oy + 0.001, ox + 0.0213, oy + 0.7123, ox + 0.021, oy + 1.5864);
-    doc.curveTo(ox + 0.021, oy + 1.8656, ox + 0.0938, oy + 2.1383, ox + 0.2326, oy + 2.3788);
-    doc.lineTo(ox + 0.0, oy + 3.2);
-    doc.lineTo(ox + 0.8445, oy + 2.9785);
-    doc.curveTo(ox + 1.0772, oy + 3.1055, ox + 1.339, oy + 3.1724, ox + 1.6044, oy + 3.1728);
-    doc.lineTo(ox + 1.6051, oy + 3.1728);
-    doc.curveTo(ox + 2.4788, oy + 3.1728, ox + 3.1902, oy + 2.4614, ox + 3.1905, oy + 1.5874);
-    doc.curveTo(ox + 3.1918, oy + 1.1667, ox + 3.0248, oy + 0.7628, ox + 2.7265, oy + 0.4659);
-    doc.lineTo(ox + 2.7275, oy + 0.4659);
-    doc.path("f");
-  };
-  const drawIcon_pin = (ox, oy) => {
-    doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(255, 255, 255);
-    doc.setLineWidth(0);
-    doc.moveTo(ox + 1.1201, oy + 0.0);
-    doc.curveTo(ox + 0.501, oy + 0.0, ox + 0.0, oy + 0.501, ox + 0.0, oy + 1.1201);
-    doc.curveTo(ox + 0.0, oy + 1.9602, ox + 1.1201, oy + 3.2, ox + 1.1201, oy + 3.2);
-    doc.curveTo(ox + 1.1201, oy + 3.2, ox + 2.2402, oy + 1.9602, ox + 2.2402, oy + 1.1201);
-    doc.curveTo(ox + 2.2402, oy + 0.501, ox + 1.7392, oy + 0.0, ox + 1.1201, oy + 0.0);
-    doc.moveTo(ox + 1.1201, oy + 1.5199);
-    doc.curveTo(ox + 0.8992, oy + 1.5199, ox + 0.72, oy + 1.3407, ox + 0.72, oy + 1.1201);
-    doc.curveTo(ox + 0.72, oy + 0.8992, ox + 0.8992, oy + 0.72, ox + 1.1201, oy + 0.72);
-    doc.curveTo(ox + 1.3407, oy + 0.72, ox + 1.5199, oy + 0.8992, ox + 1.5199, oy + 1.1201);
-    doc.curveTo(ox + 1.5199, oy + 1.3407, ox + 1.3407, oy + 1.5199, ox + 1.1201, oy + 1.5199);
-    doc.path("f");
-  };
-  const drawIcon_doc = (ox, oy) => {
-    doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(255, 255, 255);
-    doc.setLineWidth(0);
-    doc.moveTo(ox + 1.6002, oy + 0.0);
-    doc.lineTo(ox + 0.3198, oy + 0.0);
-    doc.curveTo(ox + 0.1441, oy + 0.0, ox + 0.0016, oy + 0.1441, ox + 0.0016, oy + 0.3198);
-    doc.lineTo(ox + 0.0, oy + 2.8798);
-    doc.curveTo(ox + 0.0, oy + 3.0559, ox + 0.1426, oy + 3.2, ox + 0.3182, oy + 3.2);
-    doc.lineTo(ox + 2.2402, oy + 3.2);
-    doc.curveTo(ox + 2.4159, oy + 3.2, ox + 2.56, oy + 3.0559, ox + 2.56, oy + 2.8798);
-    doc.lineTo(ox + 2.56, oy + 0.9602);
-    doc.lineTo(ox + 1.6002, oy + 0.0);
-    doc.moveTo(ox + 1.92, oy + 2.56);
-    doc.lineTo(ox + 0.64, oy + 2.56);
-    doc.lineTo(ox + 0.64, oy + 2.2402);
-    doc.lineTo(ox + 1.92, oy + 2.2402);
-    doc.lineTo(ox + 1.92, oy + 2.56);
-    doc.moveTo(ox + 1.92, oy + 1.92);
-    doc.lineTo(ox + 0.64, oy + 1.92);
-    doc.lineTo(ox + 0.64, oy + 1.5998);
-    doc.lineTo(ox + 1.92, oy + 1.5998);
-    doc.lineTo(ox + 1.92, oy + 1.92);
-    doc.moveTo(ox + 1.4399, oy + 1.1201);
-    doc.lineTo(ox + 1.4399, oy + 0.2399);
-    doc.lineTo(ox + 2.3201, oy + 1.1201);
-    doc.lineTo(ox + 1.4399, oy + 1.1201);
-    doc.path("f");
-  };
-  const drawIcon_cal = (ox, oy) => {
-    doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(255, 255, 255);
-    doc.setLineWidth(0);
-    doc.moveTo(ox + 2.56, oy + 0.3198);
-    doc.lineTo(ox + 2.4001, oy + 0.3198);
-    doc.lineTo(ox + 2.4001, oy + 0.0);
-    doc.lineTo(ox + 2.0799, oy + 0.0);
-    doc.lineTo(ox + 2.0799, oy + 0.3198);
-    doc.lineTo(ox + 0.7999, oy + 0.3198);
-    doc.lineTo(ox + 0.7999, oy + 0.0);
-    doc.lineTo(ox + 0.4801, oy + 0.0);
-    doc.lineTo(ox + 0.4801, oy + 0.3198);
-    doc.lineTo(ox + 0.3198, oy + 0.3198);
-    doc.curveTo(ox + 0.1426, oy + 0.3198, ox + 0.0016, oy + 0.464, ox + 0.0016, oy + 0.64);
-    doc.lineTo(ox + 0.0, oy + 2.8798);
-    doc.curveTo(ox + 0.0, oy + 3.0559, ox + 0.1426, oy + 3.2, ox + 0.3198, oy + 3.2);
-    doc.lineTo(ox + 2.56, oy + 3.2);
-    doc.curveTo(ox + 2.736, oy + 3.2, ox + 2.8802, oy + 3.0559, ox + 2.8802, oy + 2.8798);
-    doc.lineTo(ox + 2.8802, oy + 0.64);
-    doc.curveTo(ox + 2.8802, oy + 0.464, ox + 2.736, oy + 0.3198, ox + 2.56, oy + 0.3198);
-    doc.moveTo(ox + 2.56, oy + 2.8798);
-    doc.lineTo(ox + 0.3198, oy + 2.8798);
-    doc.lineTo(ox + 0.3198, oy + 1.1201);
-    doc.lineTo(ox + 2.56, oy + 1.1201);
-    doc.lineTo(ox + 2.56, oy + 2.8798);
-    doc.moveTo(ox + 0.64, oy + 1.4399);
-    doc.lineTo(ox + 1.4399, oy + 1.4399);
-    doc.lineTo(ox + 1.4399, oy + 2.2398);
-    doc.lineTo(ox + 0.64, oy + 2.2398);
-    doc.path("f");
-  };
-
-  // ── Info con íconos dibujados como paths
-  const infoRows = [];
-  if (cfg.cel) infoRows.push({
-    draw: drawIcon_phone,
-    w: 3.1918,
-    text: "Celular: " + cfg.cel
-  });
-  if (cfg.dom) infoRows.push({
-    draw: drawIcon_pin,
-    w: 2.2402,
-    text: "Domicilio: " + cfg.dom
-  });
-  if (cfg.cuit) infoRows.push({
-    draw: drawIcon_doc,
-    w: 2.56,
-    text: "CUIT: " + cfg.cuit
-  });
-  infoRows.push({
-    draw: drawIcon_cal,
-    w: 2.8802,
-    text: "Fecha: " + d.fecha
-  });
-  infoRows.forEach(row => {
-    row.draw(ML, y - 2.8);
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.3);
+    drawFn(ML, y - iconSize + 0.5, iconSize);
     tf("normal", 9.5, [0, 0, 0]);
-    doc.text(row.text, ML + row.w + 1.5, y);
+    doc.text(text, ML + iconSize + 1.5, y);
     y += 5;
-  });
+  };
+
+  // Phone icon: circle with handset shape
+  const drawPhone = (x, y0, s) => {
+    doc.setLineWidth(0.4);
+    doc.circle(x + s / 2, y0 + s / 2, s / 2, "S");
+    doc.setLineWidth(0.6);
+    doc.lines([[0.8, 0], [0, 0.5], [-0.3, 0], [0, 0.8], [0.3, 0], [0, 0.5], [0.8, 0]], x + s * 0.25, y0 + s * 0.2, [1, 1], "S");
+  };
+  // Pin icon: circle + triangle point
+  const drawPin = (x, y0, s) => {
+    doc.circle(x + s / 2, y0 + s * 0.35, s * 0.35, "F");
+    doc.triangle(x + s * 0.15, y0 + s * 0.55, x + s * 0.85, y0 + s * 0.55, x + s * 0.5, y0 + s, "F");
+    doc.setFillColor(255, 255, 255);
+    doc.circle(x + s / 2, y0 + s * 0.35, s * 0.15, "F");
+    doc.setFillColor(0, 0, 0);
+  };
+  // Doc icon: rectangle with folded corner
+  const drawDoc = (x, y0, s) => {
+    const fold = s * 0.28;
+    doc.lines([[s - fold, 0], [fold, fold], [0, s - fold], [-s, 0], [0, -s]], x, y0, [1, 1], "F");
+    doc.setFillColor(255, 255, 255);
+    doc.lines([[0, -fold], [fold, 0], [0, fold], [-fold, 0]], x + s - fold, y0, [1, 1], "F");
+    doc.setFillColor(0, 0, 0);
+    doc.setLineWidth(0.3);
+    doc.line(x + s * 0.2, y0 + s * 0.5, x + s * 0.8, y0 + s * 0.5);
+    doc.line(x + s * 0.2, y0 + s * 0.65, x + s * 0.8, y0 + s * 0.65);
+    doc.line(x + s * 0.2, y0 + s * 0.8, x + s * 0.65, y0 + s * 0.8);
+  };
+  // Calendar icon: rounded rect with header
+  const drawCal = (x, y0, s) => {
+    doc.roundedRect(x, y0 + s * 0.1, s, s * 0.9, 0.3, 0.3, "S");
+    doc.setFillColor(0, 0, 0);
+    doc.rect(x, y0 + s * 0.1, s, s * 0.3, "F");
+    doc.setFillColor(255, 255, 255);
+    doc.line(x + s * 0.3, y0, x + s * 0.3, y0 + s * 0.25);
+    doc.line(x + s * 0.7, y0, x + s * 0.7, y0 + s * 0.25);
+    doc.setFillColor(0, 0, 0);
+  };
+  if (cfg.cel) drawInfoRow(drawPhone, "Celular: " + cfg.cel);
+  if (cfg.dom) drawInfoRow(drawPin, "Domicilio: " + cfg.dom);
+  if (cfg.cuit) drawInfoRow(drawDoc, "CUIT: " + cfg.cuit);
+  drawInfoRow(drawCal, "Fecha: " + d.fecha);
   y += 3;
   doc.setDrawColor(160, 160, 160);
   doc.setLineWidth(0.4);
@@ -1479,8 +1372,4 @@ function App() {
     onLoad: p => goForm(p)
   }), view === "config" && /*#__PURE__*/React.createElement(ConfigView, null)));
 }
-document.addEventListener('DOMContentLoaded', function() {
-  var container = document.getElementById('root');
-  var root = ReactDOM.createRoot(container);
-  root.render(React.createElement(App));
-});
+document.addEventListener("DOMContentLoaded",function(){var r=ReactDOM.createRoot(document.getElementById("root"));r.render(React.createElement(App));});
