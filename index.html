@@ -1,4 +1,26 @@
-import { useState, useEffect } from "react";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presupuestos</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: #DDD9D0; border-radius: 10px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+
+
 
 // ── Logo embebido ──────────────────────────────────────────────────────────────
 // (se carga desde localStorage si el usuario sube el suyo)
@@ -239,57 +261,98 @@ function FormView({ loadData, onSaved }) {
     }, 80);
   };
 
-  const row = { display:'flex', gap:13 };
-  const tog = on => ({ flex:1, padding:8, border: on?'2px solid #2B4C3F':'2px solid #DDD9D0', borderRadius:8, textAlign:'center', cursor:'pointer', fontSize:12.5, fontWeight:500, color: on?'#2B4C3F':'#7A756C', background: on?'#E8F0ED':'transparent' });
+  const lbl = txt => <label style={{ fontSize:10.5, fontWeight:600, color:'#7A756C', textTransform:'uppercase', letterSpacing:.5 }}>{txt}</label>;
+  const tog = on => ({ flex:1, padding:'9px 8px', border: on?'2px solid #2B4C3F':'2px solid #DDD9D0', borderRadius:8, textAlign:'center', cursor:'pointer', fontSize:12.5, fontWeight:500, color: on?'#2B4C3F':'#7A756C', background: on?'#E8F0ED':'transparent', transition:'all .15s' });
+  const MontoBox = ({ val }) => <div style={{ padding:'8px 10px', background:'#E8F0ED', border:'1px solid #C5DDD5', borderRadius:8, fontSize:13, fontWeight:700, color:'#2B4C3F', whiteSpace:'nowrap', height:36, display:'flex', alignItems:'center' }}>{fPeso(val)}</div>;
 
-  return <div style={{ display:'flex', flexDirection:'column', flex:1, overflow:'hidden' }}>
+  return <div style={{ display:'flex', flexDirection:'column', height:'100%' }}>
     <div style={{ background:'#fff', borderBottom:'1px solid #DDD9D0', padding:'12px 24px', display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0 }}>
       <div style={{ fontSize:17, fontWeight:700 }}>{editId ? 'Editando presupuesto' : 'Nuevo presupuesto'}</div>
-      <button onClick={handleSave} disabled={loading} style={{ padding:'9px 18px', background:'#2B4C3F', color:'#fff', border:'none', borderRadius:8, fontSize:13, fontWeight:700, cursor:'pointer', display:'flex', alignItems:'center', gap:7, fontFamily:'inherit' }}>
-        {loading ? '⏳ Generando...' : '⬇️ Guardar y generar PDF'}
+      <button onClick={handleSave} disabled={loading} style={{ padding:'9px 18px', background: loading?'#7A9E95':'#2B4C3F', color:'#fff', border:'none', borderRadius:8, fontSize:13, fontWeight:700, cursor: loading?'default':'pointer', display:'flex', alignItems:'center', gap:7, fontFamily:'inherit' }}>
+        {loading ? '\u23F3 Generando...' : '\u2B07\uFE0F Guardar y generar PDF'}
       </button>
     </div>
-    <div style={{ flex:1, overflowY:'auto', padding:22, display:'flex', flexDirection:'column', gap:16, maxWidth:780 }}>
+    <div style={{ overflowY:'auto', padding:'20px 22px', display:'flex', flexDirection:'column', gap:16 }}>
       <Card num="1" title="Destinatarios">
-        <Field label="Empresa / Persona / Consorcio" hint="Podés poner varios separados por /"><Input value={dest} onChange={e=>setDest(e.target.value)} placeholder="MARO FRAMA S.A. / COSMÉTICOS ANGOSTURA SA" /></Field>
-        <Field label="Texto de presentación"><Textarea value={intro} onChange={e=>setIntro(e.target.value)} placeholder="Por la presente me dirijo a los responsables..." /></Field>
+        <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+          {lbl('Empresa / Persona / Consorcio')}
+          <Input value={dest} onChange={e=>setDest(e.target.value)} placeholder="MARO FRAMA S.A. / COSMETICOS ANGOSTURA SA" />
+          <span style={{ fontSize:10.5, color:'#7A756C' }}>Podes poner varios separados por /</span>
+        </div>
+        <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+          {lbl('Texto de presentacion')}
+          <Textarea value={intro} onChange={e=>setIntro(e.target.value)} placeholder="Por la presente me dirijo a los responsables de la empresa/consorcio..." />
+        </div>
       </Card>
-      <Card num="2" title="Informe técnico y visita previa">
-        <Textarea rows={5} value={informe} onChange={e=>setInforme(e.target.value)} placeholder="Describí la visita técnica realizada..." />
+      <Card num="2" title="Informe tecnico y visita previa">
+        <Textarea rows={5} value={informe} onChange={e=>setInforme(e.target.value)} placeholder="Describi la visita tecnica realizada..." />
       </Card>
       <Card num="3" title="Concepto de trabajo">
-        <Textarea rows={3} value={concepto} onChange={e=>setConcepto(e.target.value)} placeholder="Ejecución de trabajos de..." />
+        <Textarea rows={3} value={concepto} onChange={e=>setConcepto(e.target.value)} placeholder="Ejecucion de trabajos de..." />
       </Card>
-      <Card num="4" title="Descripción técnica de las tareas">
-        <DynList items={tareas} onChange={setTareas} placeholder="Describí la tarea..." />
+      <Card num="4" title="Descripcion tecnica de las tareas">
+        <DynList items={tareas} onChange={setTareas} placeholder="Describi la tarea..." />
       </Card>
-      <Card num="5" title="Plazo de ejecución">
-        <div style={row}>
-          <Field label="Días corridos" style={{ maxWidth:150 }}><Input type="number" value={plazoDias} onChange={e=>setPlazoDias(e.target.value)} placeholder="20" /></Field>
-          <Field label="Aclaración"><Input value={plazoNota} onChange={e=>setPlazoNota(e.target.value)} placeholder="pudiendo extenderse por razones climáticas..." /></Field>
+      <Card num="5" title="Plazo de ejecucion">
+        <div style={{ display:'grid', gridTemplateColumns:'140px 1fr', gap:13 }}>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Dias corridos')}
+            <Input type="number" value={plazoDias} onChange={e=>setPlazoDias(e.target.value)} placeholder="20" />
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Aclaracion')}
+            <Input value={plazoNota} onChange={e=>setPlazoNota(e.target.value)} placeholder="pudiendo extenderse por razones climaticas..." />
+          </div>
         </div>
       </Card>
       <Card num="6" title="Materiales">
-        <div style={row}>
-          <div style={tog(!matIncluye)} onClick={()=>setMatIncluye(false)}>❌ No incluye materiales</div>
-          <div style={tog(matIncluye)} onClick={()=>setMatIncluye(true)}>✅ Incluye materiales</div>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+          <div style={tog(!matIncluye)} onClick={()=>setMatIncluye(false)}>No incluye materiales</div>
+          <div style={tog(matIncluye)} onClick={()=>setMatIncluye(true)}>Incluye materiales</div>
         </div>
-        <Field label="Detalle adicional"><Textarea rows={2} value={matDetalle} onChange={e=>setMatDetalle(e.target.value)} placeholder="Los materiales serán provistos por la propiedad..." /></Field>
+        <div style={{ display:'flex', flexDirection:'column', gap:5, opacity: matIncluye ? 1 : 0.35, pointerEvents: matIncluye ? 'auto' : 'none', transition:'opacity .2s' }}>
+          {lbl('Detalle adicional')}
+          <Textarea rows={2} value={matDetalle} onChange={e=>setMatDetalle(e.target.value)} placeholder="Los materiales seran provistos por la propiedad..." disabled={!matIncluye} />
+        </div>
       </Card>
       <Card num="7" title="Importe y forma de pago">
-        <Field label="Importe total ($)" style={{ maxWidth:260 }}><Input type="number" value={importe} onChange={e=>setImporte(e.target.value)} placeholder="7900000" /></Field>
-        {[[pctA,setPctA,conA,setConA,mA,'Anticipo'],[pctS,setPctS,conS,setConS,mS,'Saldo']].map(([pct,setPct,con,setCon,m,lbl])=>(
-          <div key={lbl} style={row}>
-            <Field label={`${lbl} (%)`} style={{ maxWidth:110 }}><Input type="number" value={pct} onChange={e=>setPct(Number(e.target.value))} /></Field>
-            <Field label="Concepto"><Input value={con} onChange={e=>setCon(e.target.value)} /></Field>
-            <Field label="Monto"><div style={{ padding:'8px 10px', background:'#E8F0ED', border:'1px solid #C5DDD5', borderRadius:8, fontSize:13, fontWeight:700, color:'#2B4C3F', whiteSpace:'nowrap' }}>{fPeso(m)}</div></Field>
+        <div style={{ display:'flex', flexDirection:'column', gap:5, maxWidth:260 }}>
+          {lbl('Importe total ($)')}
+          <Input type="number" value={importe} onChange={e=>setImporte(e.target.value)} placeholder="7900000" />
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'110px 1fr 120px', gap:13, alignItems:'end' }}>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Anticipo (%)')}
+            <Input type="number" value={pctA} onChange={e=>setPctA(Number(e.target.value))} />
           </div>
-        ))}
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Concepto')}
+            <Input value={conA} onChange={e=>setConA(e.target.value)} />
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Monto')}
+            <MontoBox val={mA} />
+          </div>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'110px 1fr 120px', gap:13, alignItems:'end' }}>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Saldo (%)')}
+            <Input type="number" value={pctS} onChange={e=>setPctS(Number(e.target.value))} />
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Concepto')}
+            <Input value={conS} onChange={e=>setConS(e.target.value)} />
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+            {lbl('Monto')}
+            <MontoBox val={mS} />
+          </div>
+        </div>
       </Card>
       <Card num="8" title="Observaciones">
-        <DynList items={obs} onChange={setObs} placeholder="Escribí una observación..." />
+        <DynList items={obs} onChange={setObs} placeholder="Escribi una observacion..." />
       </Card>
-      <div style={{ height:32 }} />
+      <div style={{ height:40 }} />
     </div>
     <Toast msg={toast} />
   </div>;
@@ -394,9 +457,9 @@ export default function App() {
   const recents = getAll().slice(0,6);
 
   return (
-    <div style={{ display:'flex', height:'100vh', fontFamily:"'Inter',sans-serif", overflow:'hidden' }}>
+    <div style={{ display:'flex', height:'100vh', fontFamily:"'Inter',sans-serif", overflow:'hidden', maxWidth:'100%' }}>
       {/* SIDEBAR */}
-      <aside style={{ width:256, minWidth:256, background:'#2B4C3F', display:'flex', flexDirection:'column', overflow:'hidden' }}>
+      <aside style={{ width:240, minWidth:240, flexShrink:0, background:'#2B4C3F', display:'flex', flexDirection:'column', overflow:'hidden' }}>
         <div style={{ padding:'20px 16px 14px', borderBottom:'1px solid rgba(255,255,255,.1)' }}>
           <div style={{ fontSize:17, fontWeight:700, color:'#fff', marginBottom:3 }}>Presupuestos</div>
           <div style={{ fontSize:10, color:'rgba(255,255,255,.4)', textTransform:'uppercase', letterSpacing:.8 }}>Servicios de construcción</div>
@@ -424,7 +487,7 @@ export default function App() {
       </aside>
 
       {/* MAIN */}
-      <main style={{ flex:1, overflow:'hidden', display:'flex', flexDirection:'column', background:'#F7F6F3' }}>
+      <main style={{ flex:1, minWidth:0, overflow:'hidden', display:'flex', flexDirection:'column', background:'#F7F6F3' }}>
         {view==='form' && <FormView key={tick + (loadData?.id||'new')} loadData={loadData} onSaved={onSaved} />}
         {view==='history' && <HistoryView key={tick} onLoad={p=>goForm(p)} />}
         {view==='config' && <ConfigView />}
@@ -432,3 +495,9 @@ export default function App() {
     </div>
   );
 }
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
