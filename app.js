@@ -168,59 +168,22 @@ function generatePDF(d) {
   doc.text(sub, ML, y);
   y += 7;
 
-  // ── Dibujar íconos geométricos en negro + texto
-  const iconSize = 3.0;
-  const drawInfoRow = (drawFn, text) => {
-    doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.3);
-    drawFn(ML, y - iconSize + 0.5, iconSize);
-    tf("normal", 9.5, [0, 0, 0]);
-    doc.text(text, ML + iconSize + 1.5, y);
+  // ── Info sin íconos — texto limpio
+  tf("normal", 9.5, [0, 0, 0]);
+  if (cfg.cel) {
+    doc.text("Celular: " + cfg.cel, ML + 4, y);
     y += 5;
-  };
-
-  // Phone icon: circle with handset shape
-  const drawPhone = (x, y0, s) => {
-    doc.setLineWidth(0.4);
-    doc.circle(x + s / 2, y0 + s / 2, s / 2, "S");
-    doc.setLineWidth(0.6);
-    doc.lines([[0.8, 0], [0, 0.5], [-0.3, 0], [0, 0.8], [0.3, 0], [0, 0.5], [0.8, 0]], x + s * 0.25, y0 + s * 0.2, [1, 1], "S");
-  };
-  // Pin icon: circle + triangle point
-  const drawPin = (x, y0, s) => {
-    doc.circle(x + s / 2, y0 + s * 0.35, s * 0.35, "F");
-    doc.triangle(x + s * 0.15, y0 + s * 0.55, x + s * 0.85, y0 + s * 0.55, x + s * 0.5, y0 + s, "F");
-    doc.setFillColor(255, 255, 255);
-    doc.circle(x + s / 2, y0 + s * 0.35, s * 0.15, "F");
-    doc.setFillColor(0, 0, 0);
-  };
-  // Doc icon: rectangle with folded corner
-  const drawDoc = (x, y0, s) => {
-    const fold = s * 0.28;
-    doc.lines([[s - fold, 0], [fold, fold], [0, s - fold], [-s, 0], [0, -s]], x, y0, [1, 1], "F");
-    doc.setFillColor(255, 255, 255);
-    doc.lines([[0, -fold], [fold, 0], [0, fold], [-fold, 0]], x + s - fold, y0, [1, 1], "F");
-    doc.setFillColor(0, 0, 0);
-    doc.setLineWidth(0.3);
-    doc.line(x + s * 0.2, y0 + s * 0.5, x + s * 0.8, y0 + s * 0.5);
-    doc.line(x + s * 0.2, y0 + s * 0.65, x + s * 0.8, y0 + s * 0.65);
-    doc.line(x + s * 0.2, y0 + s * 0.8, x + s * 0.65, y0 + s * 0.8);
-  };
-  // Calendar icon: rounded rect with header
-  const drawCal = (x, y0, s) => {
-    doc.roundedRect(x, y0 + s * 0.1, s, s * 0.9, 0.3, 0.3, "S");
-    doc.setFillColor(0, 0, 0);
-    doc.rect(x, y0 + s * 0.1, s, s * 0.3, "F");
-    doc.setFillColor(255, 255, 255);
-    doc.line(x + s * 0.3, y0, x + s * 0.3, y0 + s * 0.25);
-    doc.line(x + s * 0.7, y0, x + s * 0.7, y0 + s * 0.25);
-    doc.setFillColor(0, 0, 0);
-  };
-  if (cfg.cel) drawInfoRow(drawPhone, "Celular: " + cfg.cel);
-  if (cfg.dom) drawInfoRow(drawPin, "Domicilio: " + cfg.dom);
-  if (cfg.cuit) drawInfoRow(drawDoc, "CUIT: " + cfg.cuit);
-  drawInfoRow(drawCal, "Fecha: " + d.fecha);
+  }
+  if (cfg.dom) {
+    doc.text("Domicilio: " + cfg.dom, ML + 4, y);
+    y += 5;
+  }
+  if (cfg.cuit) {
+    doc.text("CUIT: " + cfg.cuit, ML + 4, y);
+    y += 5;
+  }
+  doc.text("Fecha: " + d.fecha, ML + 4, y);
+  y += 5;
   y += 3;
   doc.setDrawColor(160, 160, 160);
   doc.setLineWidth(0.4);
@@ -382,27 +345,29 @@ function generatePDF(d) {
 const S = {
   inp: {
     fontFamily: "inherit",
-    fontSize: 13,
+    fontSize: 16,
     color: "#1A1816",
     background: "#F7F6F3",
     border: "1px solid #DDD9D0",
-    borderRadius: 8,
-    padding: "8px 10px",
+    borderRadius: 10,
+    padding: "12px 14px",
     outline: "none",
-    width: "100%"
+    width: "100%",
+    WebkitAppearance: "none"
   },
   ta: {
     fontFamily: "inherit",
-    fontSize: 13,
+    fontSize: 16,
     color: "#1A1816",
     background: "#F7F6F3",
     border: "1px solid #DDD9D0",
-    borderRadius: 8,
-    padding: "8px 10px",
+    borderRadius: 10,
+    padding: "12px 14px",
     outline: "none",
     width: "100%",
     resize: "vertical",
-    lineHeight: 1.6
+    lineHeight: 1.6,
+    WebkitAppearance: "none"
   }
 };
 const Inp = ({
@@ -429,61 +394,15 @@ const Lbl = ({
   c
 }) => /*#__PURE__*/React.createElement("label", {
   style: {
-    fontSize: 10.5,
-    fontWeight: 600,
+    fontSize: 11,
+    fontWeight: 700,
     color: "#7A756C",
     textTransform: "uppercase",
-    letterSpacing: .4
+    letterSpacing: .5,
+    display: "block",
+    marginBottom: 5
   }
 }, c);
-function Card({
-  num,
-  title,
-  children
-}) {
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#fff",
-      border: "1px solid #DDD9D0",
-      borderRadius: 12,
-      boxShadow: "0 1px 3px rgba(0,0,0,.06)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "11px 18px",
-      borderBottom: "1px solid #DDD9D0",
-      display: "flex",
-      alignItems: "center",
-      gap: 9
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 23,
-      height: 23,
-      background: "#2B4C3F",
-      color: "#fff",
-      borderRadius: "50%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: 11,
-      fontWeight: 700,
-      flexShrink: 0
-    }
-  }, num), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 600
-    }
-  }, title)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "14px 18px",
-      display: "flex",
-      flexDirection: "column",
-      gap: 12
-    }
-  }, children));
-}
 function Field({
   label,
   hint,
@@ -494,17 +413,66 @@ function Field({
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: 5,
+      marginBottom: 14,
       ...style
     }
   }, label && /*#__PURE__*/React.createElement(Lbl, {
     c: label
   }), children, hint && /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 10.5,
-      color: "#7A756C"
+      fontSize: 12,
+      color: "#7A756C",
+      marginTop: 4
     }
   }, hint));
+}
+function Card({
+  num,
+  title,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fff",
+      border: "1px solid #DDD9D0",
+      borderRadius: 14,
+      marginBottom: 14,
+      overflow: "hidden",
+      boxShadow: "0 1px 4px rgba(0,0,0,.07)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "13px 16px",
+      borderBottom: "1px solid #DDD9D0",
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      background: "#fff"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 26,
+      height: 26,
+      background: "#2B4C3F",
+      color: "#fff",
+      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 12,
+      fontWeight: 700,
+      flexShrink: 0
+    }
+  }, num), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 600
+    }
+  }, title)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "16px"
+    }
+  }, children));
 }
 function DynList({
   items,
@@ -514,51 +482,50 @@ function DynList({
   const add = () => onChange([...items, ""]);
   const rm = i => onChange(items.filter((_, j) => j !== i));
   const upd = (i, v) => onChange(items.map((x, j) => j === i ? v : x));
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 7
-    }
-  }, items.map((item, i) => /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", null, items.map((item, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       display: "flex",
-      gap: 7,
+      gap: 8,
+      marginBottom: 8,
       alignItems: "center"
     }
   }, /*#__PURE__*/React.createElement(Inp, {
     value: item,
     onChange: e => upd(i, e.target.value),
-    placeholder: placeholder
+    placeholder: placeholder,
+    style: {
+      flex: 1
+    }
   }), /*#__PURE__*/React.createElement("button", {
     onClick: () => rm(i),
     style: {
-      width: 28,
-      height: 28,
+      width: 36,
+      height: 36,
       border: "none",
       background: "#FBE9E7",
       color: "#C0392B",
-      borderRadius: 5,
+      borderRadius: 8,
       cursor: "pointer",
-      fontSize: 17,
+      fontSize: 20,
       flexShrink: 0,
       lineHeight: 1,
-      fontFamily: "inherit"
+      fontFamily: "inherit",
+      touchAction: "manipulation"
     }
   }, "\xD7"))), /*#__PURE__*/React.createElement("button", {
     onClick: add,
     style: {
-      padding: "7px 12px",
+      width: "100%",
+      padding: "11px",
       border: "1px dashed #DDD9D0",
       background: "none",
-      borderRadius: 8,
-      fontSize: 12.5,
+      borderRadius: 10,
+      fontSize: 14,
       color: "#7A756C",
       cursor: "pointer",
       fontFamily: "inherit",
-      marginTop: 2,
-      textAlign: "left"
+      touchAction: "manipulation"
     }
   }, "+ Agregar"));
 }
@@ -570,20 +537,24 @@ function Toast({
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "fixed",
-      bottom: 18,
-      right: 18,
-      padding: "11px 16px",
-      borderRadius: 8,
-      fontSize: 13,
+      bottom: 80,
+      left: 16,
+      right: 16,
+      padding: "13px 16px",
+      borderRadius: 10,
+      fontSize: 14,
       fontWeight: 500,
       color: "#fff",
       zIndex: 9999,
-      maxWidth: 400,
       lineHeight: 1.4,
-      background: type === "err" ? "#C0392B" : "#2B4C3F"
+      background: type === "err" ? "#C0392B" : "#2B4C3F",
+      boxShadow: "0 4px 16px rgba(0,0,0,.2)",
+      textAlign: "center"
     }
   }, msg);
 }
+
+// ── FORM ────────────────────────────────────────────────────────────
 function FormView({
   loadData,
   onSaved
@@ -682,80 +653,79 @@ function FormView({
   };
   const tog = on => ({
     flex: 1,
-    padding: "9px 8px",
+    padding: "11px 8px",
     border: on ? "2px solid #2B4C3F" : "2px solid #DDD9D0",
-    borderRadius: 8,
+    borderRadius: 10,
     textAlign: "center",
     cursor: "pointer",
-    fontSize: 12.5,
+    fontSize: 14,
     fontWeight: 500,
     color: on ? "#2B4C3F" : "#7A756C",
     background: on ? "#E8F0ED" : "transparent",
-    userSelect: "none"
+    userSelect: "none",
+    touchAction: "manipulation"
   });
   const mbox = {
-    padding: "8px 10px",
+    padding: "12px 14px",
     background: "#E8F0ED",
     border: "1px solid #C5DDD5",
-    borderRadius: 8,
-    fontSize: 13,
+    borderRadius: 10,
+    fontSize: 15,
     fontWeight: 700,
-    color: "#2B4C3F",
-    height: 36,
-    display: "flex",
-    alignItems: "center",
-    whiteSpace: "nowrap"
+    color: "#2B4C3F"
   };
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
-      height: "100%"
+      height: "100%",
+      background: "#F0EEE9"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#fff",
-      borderBottom: "1px solid #DDD9D0",
-      padding: "12px 20px",
+      background: "#2B4C3F",
+      padding: "16px",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      flexShrink: 0
+      flexShrink: 0,
+      safeAreaInsetTop: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 16,
-      fontWeight: 700
+      fontSize: 17,
+      fontWeight: 700,
+      color: "#fff"
     }
-  }, editId ? "Editando presupuesto" : "Nuevo presupuesto"), /*#__PURE__*/React.createElement("button", {
+  }, editId ? "Editando" : "Nuevo presupuesto"), /*#__PURE__*/React.createElement("button", {
     onClick: handleSave,
     disabled: loading,
     style: {
-      padding: "9px 16px",
-      background: loading ? "#999" : "#2B4C3F",
+      padding: "10px 16px",
+      background: loading ? "rgba(255,255,255,.3)" : "#C8873A",
       color: "#fff",
       border: "none",
-      borderRadius: 8,
-      fontSize: 13,
-      fontWeight: 600,
-      cursor: loading ? "default" : "pointer",
-      fontFamily: "inherit"
+      borderRadius: 10,
+      fontSize: 14,
+      fontWeight: 700,
+      cursor: "pointer",
+      fontFamily: "inherit",
+      touchAction: "manipulation",
+      whiteSpace: "nowrap"
     }
-  }, loading ? "⏳ Generando..." : "⬇️ Guardar y generar PDF")), /*#__PURE__*/React.createElement("div", {
+  }, loading ? "⏳" : "⬇️ Guardar PDF")), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
       overflowY: "auto",
-      padding: 18,
-      display: "flex",
-      flexDirection: "column",
-      gap: 14
+      padding: "16px 16px 100px",
+      WebkitOverflowScrolling: "touch"
     }
   }, /*#__PURE__*/React.createElement(Card, {
     num: "1",
     title: "Destinatarios"
   }, /*#__PURE__*/React.createElement(Field, {
-    label: "Empresa / Persona / Consorcio",
-    hint: "Pod\xE9s poner varios separados por /"
+    label: "Empresa / Consorcio / Persona",
+    hint: "Varios separados por /"
   }, /*#__PURE__*/React.createElement(Inp, {
     value: dest,
     onChange: e => setDest(e.target.value),
@@ -766,14 +736,14 @@ function FormView({
     value: intro,
     onChange: e => setIntro(e.target.value),
     rows: 3,
-    placeholder: "Por la presente me dirijo a los responsables de la empresa/consorcio a fin de presentar el siguiente presupuesto correspondiente a..."
+    placeholder: "Por la presente me dirijo a los responsables..."
   }))), /*#__PURE__*/React.createElement(Card, {
     num: "2",
     title: "Informe t\xE9cnico y visita previa"
   }, /*#__PURE__*/React.createElement(Ta, {
     value: informe,
     onChange: e => setInforme(e.target.value),
-    rows: 5,
+    rows: 4,
     placeholder: "Describ\xED la visita t\xE9cnica realizada..."
   })), /*#__PURE__*/React.createElement(Card, {
     num: "3",
@@ -793,41 +763,38 @@ function FormView({
   })), /*#__PURE__*/React.createElement(Card, {
     num: "5",
     title: "Plazo de ejecuci\xF3n"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "130px 1fr",
-      gap: 12
-    }
   }, /*#__PURE__*/React.createElement(Field, {
     label: "D\xEDas corridos"
   }, /*#__PURE__*/React.createElement(Inp, {
     type: "number",
     value: dias,
     onChange: e => setDias(e.target.value),
-    placeholder: "20"
+    placeholder: "20",
+    style: {
+      maxWidth: 160
+    }
   })), /*#__PURE__*/React.createElement(Field, {
     label: "Aclaraci\xF3n"
   }, /*#__PURE__*/React.createElement(Inp, {
     value: nota,
     onChange: e => setNota(e.target.value),
     placeholder: "pudiendo extenderse por razones clim\xE1ticas..."
-  })))), /*#__PURE__*/React.createElement(Card, {
+  }))), /*#__PURE__*/React.createElement(Card, {
     num: "6",
     title: "Materiales"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 10
+      display: "flex",
+      gap: 10,
+      marginBottom: matOn ? 14 : 0
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: tog(!matOn),
     onClick: () => setMatOn(false)
-  }, "\u274C No incluye materiales"), /*#__PURE__*/React.createElement("div", {
+  }, "\u274C No incluye"), /*#__PURE__*/React.createElement("div", {
     style: tog(matOn),
     onClick: () => setMatOn(true)
-  }, "\u2705 Incluye materiales")), matOn && /*#__PURE__*/React.createElement(Field, {
+  }, "\u2705 Incluye")), matOn && /*#__PURE__*/React.createElement(Field, {
     label: "Detalle adicional"
   }, /*#__PURE__*/React.createElement(Ta, {
     value: matDet,
@@ -838,24 +805,35 @@ function FormView({
     num: "7",
     title: "Importe y forma de pago"
   }, /*#__PURE__*/React.createElement(Field, {
-    label: "Importe total ($)",
-    style: {
-      maxWidth: 255
-    }
+    label: "Importe total ($)"
   }, /*#__PURE__*/React.createElement(Inp, {
     type: "number",
     value: total,
     onChange: e => setTotal(e.target.value),
-    placeholder: "7900000"
+    placeholder: "7900000",
+    style: {
+      fontSize: 18,
+      fontWeight: 600
+    }
   })), /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "grid",
-      gridTemplateColumns: "95px 1fr 105px",
-      gap: 12,
-      alignItems: "end"
+      background: "#F7F6F3",
+      borderRadius: 10,
+      padding: 12,
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      marginBottom: 8
     }
   }, /*#__PURE__*/React.createElement(Field, {
-    label: "Anticipo (%)"
+    label: "Anticipo (%)",
+    style: {
+      maxWidth: 120,
+      marginBottom: 0
+    }
   }, /*#__PURE__*/React.createElement(Inp, {
     type: "number",
     value: pA,
@@ -865,23 +843,38 @@ function FormView({
       setPS(100 - v);
     }
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "Concepto"
+    label: "Monto",
+    style: {
+      marginBottom: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: mbox
+  }, fP(mA)))), /*#__PURE__*/React.createElement(Field, {
+    label: "Concepto",
+    style: {
+      marginBottom: 0
+    }
   }, /*#__PURE__*/React.createElement(Inp, {
     value: conA,
     onChange: e => setConA(e.target.value)
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Monto"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: mbox
-  }, fP(mA)))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "grid",
-      gridTemplateColumns: "95px 1fr 105px",
-      gap: 12,
-      alignItems: "end"
+      background: "#F7F6F3",
+      borderRadius: 10,
+      padding: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      marginBottom: 8
     }
   }, /*#__PURE__*/React.createElement(Field, {
-    label: "Saldo (%)"
+    label: "Saldo (%)",
+    style: {
+      maxWidth: 120,
+      marginBottom: 0
+    }
   }, /*#__PURE__*/React.createElement(Inp, {
     type: "number",
     value: pS,
@@ -891,29 +884,33 @@ function FormView({
       setPA(100 - v);
     }
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "Concepto"
+    label: "Monto",
+    style: {
+      marginBottom: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: mbox
+  }, fP(mS)))), /*#__PURE__*/React.createElement(Field, {
+    label: "Concepto",
+    style: {
+      marginBottom: 0
+    }
   }, /*#__PURE__*/React.createElement(Inp, {
     value: conS,
     onChange: e => setConS(e.target.value)
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Monto"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: mbox
-  }, fP(mS))))), /*#__PURE__*/React.createElement(Card, {
+  })))), /*#__PURE__*/React.createElement(Card, {
     num: "8",
     title: "Observaciones"
   }, /*#__PURE__*/React.createElement(DynList, {
     items: obs,
     onChange: setObs,
     placeholder: "Escrib\xED una observaci\xF3n..."
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      height: 36
-    }
-  })), /*#__PURE__*/React.createElement(Toast, {
+  }))), /*#__PURE__*/React.createElement(Toast, {
     msg: toast
   }));
 }
+
+// ── HISTORY ─────────────────────────────────────────────────────────
 function HistoryView({
   onLoad
 }) {
@@ -931,112 +928,100 @@ function HistoryView({
       justifyContent: "center",
       flex: 1,
       color: "#7A756C",
-      gap: 10,
-      padding: 40
+      gap: 12,
+      padding: 40,
+      background: "#F0EEE9"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 38
+      fontSize: 48
     }
   }, "\uD83D\uDCCB"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 15,
+      fontSize: 17,
       fontWeight: 600,
       color: "#1A1816"
     }
-  }, "Todav\xEDa no hay presupuestos"), /*#__PURE__*/React.createElement("div", {
+  }, "Sin presupuestos"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 13
+      fontSize: 14,
+      textAlign: "center"
     }
   }, "Complet\xE1 el formulario y guard\xE1 el primero."));
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: 22,
+      flex: 1,
       overflowY: "auto",
-      flex: 1
+      padding: "16px 16px 100px",
+      background: "#F0EEE9",
+      WebkitOverflowScrolling: "touch"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 21,
+      fontSize: 20,
       fontWeight: 700,
-      marginBottom: 16
+      marginBottom: 16,
+      color: "#1A1816"
     }
-  }, "Historial"), /*#__PURE__*/React.createElement("div", {
+  }, "Historial"), list.map((p, i) => /*#__PURE__*/React.createElement("div", {
+    key: p.id,
     style: {
       background: "#fff",
       border: "1px solid #DDD9D0",
-      borderRadius: 12,
-      overflow: "hidden"
+      borderRadius: 14,
+      marginBottom: 12,
+      overflow: "hidden",
+      boxShadow: "0 1px 4px rgba(0,0,0,.07)"
     }
-  }, /*#__PURE__*/React.createElement("table", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: "100%",
-      borderCollapse: "collapse"
+      padding: "14px 16px"
     }
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#F0EEE9",
-      borderBottom: "1px solid #DDD9D0"
-    }
-  }, ["Cliente", "Fecha", "Importe", "Acciones"].map(h => /*#__PURE__*/React.createElement("th", {
-    key: h,
-    style: {
-      textAlign: "left",
-      padding: "10px 15px",
-      fontSize: 10,
+      fontSize: 15,
       fontWeight: 700,
-      textTransform: "uppercase",
-      color: "#7A756C"
+      color: "#1A1816",
+      marginBottom: 3
     }
-  }, h)))), /*#__PURE__*/React.createElement("tbody", null, list.map((p, i) => /*#__PURE__*/React.createElement("tr", {
-    key: p.id,
+  }, p.dest || "Sin cliente"), /*#__PURE__*/React.createElement("div", {
     style: {
-      borderBottom: i < list.length - 1 ? "1px solid #DDD9D0" : "none"
-    }
-  }, /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: "11px 15px",
       fontSize: 13,
-      fontWeight: 600
+      color: "#7A756C",
+      display: "flex",
+      justifyContent: "space-between"
     }
-  }, p.dest || "Sin cliente"), /*#__PURE__*/React.createElement("td", {
+  }, /*#__PURE__*/React.createElement("span", null, p.fecha), /*#__PURE__*/React.createElement("span", {
     style: {
-      padding: "11px 15px",
-      fontSize: 12.5,
-      color: "#7A756C"
-    }
-  }, p.fecha), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: "11px 15px",
-      fontSize: 13,
       fontWeight: 600,
       color: "#2B4C3F"
     }
-  }, p.total ? fP(p.total) : "—"), /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: "11px 15px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, p.total ? fP(p.total) : "—"))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 5
+      borderTop: "1px solid #DDD9D0"
     }
-  }, [["✏️", "Editar", () => onLoad(p)], ["📥", "PDF", () => generatePDF(p)], ["🗑️", "Eliminar", () => del(p.id)]].map(([ic, tt, fn]) => /*#__PURE__*/React.createElement("button", {
-    key: tt,
-    title: tt,
+  }, [["✏️ Editar", () => onLoad(p)], ["📥 PDF", () => generatePDF(p)], ["🗑️", () => del(p.id)]].map(([lbl, fn], i) => /*#__PURE__*/React.createElement("button", {
+    key: i,
     onClick: fn,
     style: {
-      width: 28,
-      height: 28,
-      border: "1px solid #DDD9D0",
+      flex: i === 2 ? 0 : 1,
+      padding: "12px 8px",
+      border: "none",
+      borderRight: i < 2 ? "1px solid #DDD9D0" : "none",
       background: "#fff",
-      borderRadius: 5,
       cursor: "pointer",
       fontSize: 13,
-      fontFamily: "inherit"
+      fontWeight: i === 2 ? 400 : 600,
+      color: i === 2 ? "#C0392B" : "#2B4C3F",
+      fontFamily: "inherit",
+      touchAction: "manipulation",
+      minWidth: i === 2 ? 44 : 0
     }
-  }, ic))))))))));
+  }, lbl))))));
 }
+
+// ── CONFIG ───────────────────────────────────────────────────────────
 function ConfigView() {
   const c = getCfg();
   const [logo, setLogo] = useState(c.logo || null);
@@ -1065,123 +1050,88 @@ function ConfigView() {
     };
     r.readAsDataURL(f);
   };
-  const IcoPhone = () => /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 " + SVG_ICONS.phone.w + " " + SVG_ICONS.phone.h,
-    width: "18",
-    height: "18",
-    fill: "#1A1816"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: SVG_ICONS.phone.d
-  }));
-  const IcoPin = () => /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 " + SVG_ICONS.pin.w + " " + SVG_ICONS.pin.h,
-    width: "13",
-    height: "18",
-    fill: "#1A1816"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: SVG_ICONS.pin.d
-  }));
-  const IcoDoc = () => /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 " + SVG_ICONS.doc.w + " " + SVG_ICONS.doc.h,
-    width: "14",
-    height: "18",
-    fill: "#1A1816"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: SVG_ICONS.doc.d
-  }));
-  const ICoCal = () => /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 " + SVG_ICONS.cal.w + " " + SVG_ICONS.cal.h,
-    width: "15",
-    height: "18",
-    fill: "#1A1816"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: SVG_ICONS.cal.d
-  }));
-  const row = (Icon, label, value) => /*#__PURE__*/React.createElement("div", {
+  const row = (icon, label, value) => /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: 12,
-      padding: "10px 0",
+      gap: 14,
+      padding: "14px 0",
       borderBottom: "1px solid #F0EEE9"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      width: 24,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
+      fontSize: 22,
+      width: 28,
+      textAlign: "center",
       flexShrink: 0
     }
-  }, /*#__PURE__*/React.createElement(Icon, null)), /*#__PURE__*/React.createElement("div", {
+  }, icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 1
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 10.5,
-      fontWeight: 600,
+      fontSize: 11,
+      fontWeight: 700,
       color: "#7A756C",
       textTransform: "uppercase",
-      letterSpacing: .4
+      letterSpacing: .5,
+      marginBottom: 2
     }
-  }, label), /*#__PURE__*/React.createElement("span", {
+  }, label), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 13,
+      fontSize: 14,
       fontWeight: 500,
       color: "#1A1816"
     }
   }, value)));
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: 22,
+      flex: 1,
       overflowY: "auto",
-      flex: 1
+      padding: "16px 16px 100px",
+      background: "#F0EEE9",
+      WebkitOverflowScrolling: "touch"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 21,
+      fontSize: 20,
       fontWeight: 700,
-      marginBottom: 5
+      marginBottom: 4,
+      color: "#1A1816"
     }
   }, "Mis datos"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
       color: "#7A756C",
-      marginBottom: 18
+      marginBottom: 16
     }
   }, "Datos del encabezado del presupuesto."), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#fff",
       border: "1px solid #DDD9D0",
-      borderRadius: 12,
-      padding: "4px 18px 16px",
-      display: "flex",
-      flexDirection: "column"
+      borderRadius: 14,
+      padding: "0 16px 16px",
+      boxShadow: "0 1px 4px rgba(0,0,0,.07)"
     }
-  }, row(IcoPhone, "Celular", "03543-15601317"), row(IcoPin, "Domicilio", "Armenia 2374"), row(IcoDoc, "CUIT", "20-30499016-4"), row(ICoCal, "Fecha", "Se genera automáticamente"), /*#__PURE__*/React.createElement("div", {
+  }, row("📞", "Celular", "03543-15601317"), row("📍", "Domicilio", "Armenia 2374"), row("🪪", "CUIT", "20-30499016-4"), row("📅", "Fecha", "Se genera automáticamente"), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 14
+      marginTop: 16
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10.5,
-      fontWeight: 600,
+      fontSize: 11,
+      fontWeight: 700,
       color: "#7A756C",
       textTransform: "uppercase",
-      letterSpacing: .4,
-      marginBottom: 8
+      letterSpacing: .5,
+      marginBottom: 10
     }
   }, "Logo"), /*#__PURE__*/React.createElement("div", {
     onClick: () => document.getElementById("logo-inp").click(),
     style: {
       border: "2px dashed #DDD9D0",
-      borderRadius: 8,
-      padding: 14,
+      borderRadius: 10,
+      padding: 20,
       textAlign: "center",
-      cursor: "pointer"
+      cursor: "pointer",
+      touchAction: "manipulation"
     }
   }, /*#__PURE__*/React.createElement("input", {
     id: "logo-inp",
@@ -1194,27 +1144,34 @@ function ConfigView() {
   }), logo ? /*#__PURE__*/React.createElement("img", {
     src: logo,
     style: {
-      maxHeight: 52,
-      maxWidth: 140,
+      maxHeight: 60,
+      maxWidth: 160,
       objectFit: "contain"
     }
-  }) : /*#__PURE__*/React.createElement("span", {
+  }) : /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      marginBottom: 6
+    }
+  }, "\uD83D\uDCC1"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
       color: "#7A756C"
     }
-  }, "\uD83D\uDCC1 Sub\xED tu logo")), ok && /*#__PURE__*/React.createElement("div", {
+  }, "Toc\xE1 para subir tu logo"))), ok && /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "9px 12px",
+      padding: "11px 14px",
       background: "#E8F0ED",
       color: "#2B4C3F",
-      borderRadius: 8,
-      fontSize: 13,
+      borderRadius: 10,
+      fontSize: 14,
       fontWeight: 500,
-      marginTop: 10
+      marginTop: 12
     }
   }, "\u2705 Logo guardado"))));
 }
+
+// ── APP ROOT ────────────────────────────────────────────────────────
 function App() {
   const [view, setView] = useState("form");
   const [loadData, setLoadData] = useState(null);
@@ -1224,144 +1181,35 @@ function App() {
     setView("form");
   };
   const onSaved = () => setTick(t => t + 1);
-  const recents = getAll().slice(0, 6);
-  const nb = (v, ic, lbl) => /*#__PURE__*/React.createElement("button", {
-    onClick: () => setView(v),
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 8,
-      padding: "9px 11px",
-      borderRadius: 8,
-      cursor: "pointer",
-      fontSize: 13,
-      fontWeight: 500,
-      border: "none",
-      width: "100%",
-      textAlign: "left",
-      fontFamily: "inherit",
-      background: view === v ? "rgba(255,255,255,.15)" : "transparent",
-      color: view === v ? "#fff" : "rgba(255,255,255,.62)"
-    }
-  }, ic, " ", lbl);
+  const tabs = [{
+    id: "form",
+    icon: "✏️",
+    label: "Nuevo"
+  }, {
+    id: "history",
+    icon: "📋",
+    label: "Historial"
+  }, {
+    id: "config",
+    icon: "⚙️",
+    label: "Mis datos"
+  }];
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      height: "100vh",
-      fontFamily: "system-ui,sans-serif",
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("aside", {
-    style: {
-      width: 238,
-      flexShrink: 0,
-      background: "#2B4C3F",
-      display: "flex",
       flexDirection: "column",
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "18px 15px 13px",
-      borderBottom: "1px solid rgba(255,255,255,.1)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 16,
-      fontWeight: 700,
-      color: "#fff"
-    }
-  }, "Presupuestos"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "rgba(255,255,255,.4)",
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      marginTop: 2
-    }
-  }, "Servicios de construcci\xF3n")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "10px 8px",
-      display: "flex",
-      flexDirection: "column",
-      gap: 3
-    }
-  }, nb("form", "✏️", "Nuevo presupuesto"), nb("history", "📋", "Historial"), nb("config", "⚙️", "Mis datos")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "12px 12px 4px",
-      fontSize: 10,
-      fontWeight: 600,
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      color: "rgba(255,255,255,.28)"
-    }
-  }, "Recientes"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      overflowY: "auto",
-      padding: "0 8px 8px"
-    }
-  }, recents.length === 0 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "rgba(255,255,255,.28)",
-      padding: 10,
-      textAlign: "center",
-      lineHeight: 1.6
-    }
-  }, "Los presupuestos guardados aparecen ac\xE1."), recents.map(p => /*#__PURE__*/React.createElement("div", {
-    key: p.id,
-    onClick: () => goForm(p),
-    style: {
-      padding: "8px 10px",
-      borderRadius: 8,
-      cursor: "pointer",
-      marginBottom: 2
-    },
-    onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,.08)",
-    onMouseLeave: e => e.currentTarget.style.background = "transparent"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      fontWeight: 500,
-      color: "rgba(255,255,255,.8)",
-      whiteSpace: "nowrap",
+      height: "100dvh",
+      fontFamily: "system-ui,-apple-system,sans-serif",
       overflow: "hidden",
-      textOverflow: "ellipsis"
-    }
-  }, p.dest || "Sin cliente"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "rgba(255,255,255,.35)",
-      marginTop: 1,
-      display: "flex",
-      justifyContent: "space-between"
-    }
-  }, /*#__PURE__*/React.createElement("span", null, p.fecha), /*#__PURE__*/React.createElement("span", null, p.total ? fP(p.total) : "—"))))), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      setLoadData(null);
-      setView("form");
-    },
-    style: {
-      margin: "0 8px 12px",
-      padding: 10,
-      background: "#C8873A",
-      color: "#fff",
-      border: "none",
-      borderRadius: 8,
-      fontSize: 13,
-      fontWeight: 600,
-      cursor: "pointer",
-      fontFamily: "inherit"
-    }
-  }, "+ Nuevo presupuesto")), /*#__PURE__*/React.createElement("main", {
-    style: {
-      flex: 1,
-      minWidth: 0,
-      overflow: "hidden",
-      display: "flex",
-      flexDirection: "column",
       background: "#F0EEE9"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "column",
+      minHeight: 0
     }
   }, view === "form" && /*#__PURE__*/React.createElement(FormView, {
     key: tick + ((loadData === null || loadData === void 0 ? void 0 : loadData.id) || "new"),
@@ -1370,6 +1218,46 @@ function App() {
   }), view === "history" && /*#__PURE__*/React.createElement(HistoryView, {
     key: tick,
     onLoad: p => goForm(p)
-  }), view === "config" && /*#__PURE__*/React.createElement(ConfigView, null)));
+  }), view === "config" && /*#__PURE__*/React.createElement(ConfigView, null)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      background: "#fff",
+      borderTop: "1px solid #DDD9D0",
+      flexShrink: 0,
+      paddingBottom: "env(safe-area-inset-bottom)"
+    }
+  }, tabs.map(tab => /*#__PURE__*/React.createElement("button", {
+    key: tab.id,
+    onClick: () => {
+      if (tab.id === "form") {
+        setLoadData(null);
+      }
+      setView(tab.id);
+    },
+    style: {
+      flex: 1,
+      padding: "10px 0 8px",
+      border: "none",
+      background: "transparent",
+      cursor: "pointer",
+      fontFamily: "inherit",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 3,
+      touchAction: "manipulation",
+      color: view === tab.id ? "#2B4C3F" : "#7A756C",
+      borderTop: view === tab.id ? "2px solid #2B4C3F" : "2px solid transparent"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 22
+    }
+  }, tab.icon), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      fontWeight: view === tab.id ? 700 : 400
+    }
+  }, tab.label)))));
 }
 document.addEventListener("DOMContentLoaded",function(){var r=ReactDOM.createRoot(document.getElementById("root"));r.render(React.createElement(App));});
