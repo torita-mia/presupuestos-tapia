@@ -172,7 +172,8 @@ function generatePDF(d) {
 
   const drawIcon_phone = (ox, oy) => {
     doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(0, 0, 0);
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0);
     doc.moveTo(ox + 2.3289, oy + 1.9181);
     doc.curveTo(ox + 2.2892, oy + 1.8984, ox + 2.0946, oy + 1.8026, ox + 2.0582, oy + 1.7892);
     doc.curveTo(ox + 2.0218, oy + 1.776, ox + 1.9955, oy + 1.7695, ox + 1.969, oy + 1.8092);
@@ -219,11 +220,12 @@ function generatePDF(d) {
     doc.curveTo(ox + 2.4788, oy + 3.1728, ox + 3.1902, oy + 2.4614, ox + 3.1905, oy + 1.5874);
     doc.curveTo(ox + 3.1918, oy + 1.1667, ox + 3.0248, oy + 0.7628, ox + 2.7265, oy + 0.4659);
     doc.lineTo(ox + 2.7275, oy + 0.4659);
-    doc.path("F");
+    doc.path("f");
   };
   const drawIcon_pin = (ox, oy) => {
     doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(0, 0, 0);
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0);
     doc.moveTo(ox + 1.1201, oy + 0.0);
     doc.curveTo(ox + 0.501, oy + 0.0, ox + 0.0, oy + 0.501, ox + 0.0, oy + 1.1201);
     doc.curveTo(ox + 0.0, oy + 1.9602, ox + 1.1201, oy + 3.2, ox + 1.1201, oy + 3.2);
@@ -234,11 +236,12 @@ function generatePDF(d) {
     doc.curveTo(ox + 0.72, oy + 0.8992, ox + 0.8992, oy + 0.72, ox + 1.1201, oy + 0.72);
     doc.curveTo(ox + 1.3407, oy + 0.72, ox + 1.5199, oy + 0.8992, ox + 1.5199, oy + 1.1201);
     doc.curveTo(ox + 1.5199, oy + 1.3407, ox + 1.3407, oy + 1.5199, ox + 1.1201, oy + 1.5199);
-    doc.path("F");
+    doc.path("f");
   };
   const drawIcon_doc = (ox, oy) => {
     doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(0, 0, 0);
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0);
     doc.moveTo(ox + 1.6002, oy + 0.0);
     doc.lineTo(ox + 0.3198, oy + 0.0);
     doc.curveTo(ox + 0.1441, oy + 0.0, ox + 0.0016, oy + 0.1441, ox + 0.0016, oy + 0.3198);
@@ -262,11 +265,12 @@ function generatePDF(d) {
     doc.lineTo(ox + 1.4399, oy + 0.2399);
     doc.lineTo(ox + 2.3201, oy + 1.1201);
     doc.lineTo(ox + 1.4399, oy + 1.1201);
-    doc.path("F");
+    doc.path("f");
   };
   const drawIcon_cal = (ox, oy) => {
     doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(0, 0, 0);
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0);
     doc.moveTo(ox + 2.56, oy + 0.3198);
     doc.lineTo(ox + 2.4001, oy + 0.3198);
     doc.lineTo(ox + 2.4001, oy + 0.0);
@@ -293,7 +297,7 @@ function generatePDF(d) {
     doc.lineTo(ox + 1.4399, oy + 1.4399);
     doc.lineTo(ox + 1.4399, oy + 2.2398);
     doc.lineTo(ox + 0.64, oy + 2.2398);
-    doc.path("F");
+    doc.path("f");
   };
 
   // ── Info con íconos dibujados como paths
