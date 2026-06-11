@@ -168,113 +168,64 @@ function generatePDF(d) {
   doc.text(sub, ML, y);
   y += 7;
 
-  // ── Info con íconos geométricos negros ──────────────────────────
+  // ── Info con íconos simples en negro ─────────────────────────────
+  const iconW = 3.0;
   const drawInfoLine = (iconFn, text) => {
     doc.setFillColor(0, 0, 0);
     doc.setDrawColor(0, 0, 0);
-    iconFn(ML + 1.2, y - 2.2);
+    iconFn(ML + 1.5, y - 2.5);
     tf("normal", 9.5, [0, 0, 0]);
-    doc.text(text, ML + 5.5, y);
+    doc.text(text, ML + iconW + 2, y);
     y += 5;
   };
-  // WhatsApp icon extraído del PDF original
+
+  // WhatsApp: círculo con burbuja de chat
   const icoPhone = (x, y0) => {
     doc.setFillColor(0, 0, 0);
-    doc.moveTo(x + 2.3288, y0 + 1.9181);
-    doc.curveTo(x + 2.2892, y0 + 1.8982, ox + 2.0945, y0 + 1.8025, ox + 2.0582, y0 + 1.7891);
-    doc.curveTo(x + 2.0218, y0 + 1.776, ox + 1.9954, y0 + 1.7694, ox + 1.9689, y0 + 1.8092);
-    doc.curveTo(x + 1.9427, y0 + 1.8487, ox + 1.8667, y0 + 1.9379, ox + 1.8436, y0 + 1.9643);
-    doc.curveTo(x + 1.8206, y0 + 1.9908, ox + 1.7974, y0 + 1.994, ox + 1.7578, y0 + 1.9743);
-    doc.curveTo(x + 1.7182, y0 + 1.9543, ox + 1.5905, y0 + 1.9126, ox + 1.4392, y0 + 1.7777);
-    doc.curveTo(x + 1.3215, y0 + 1.6727, ox + 1.242, y0 + 1.543, ox + 1.2189, y0 + 1.5032);
-    doc.curveTo(x + 1.1959, y0 + 1.4637, ox + 1.2165, y0 + 1.4422, ox + 1.2362, y0 + 1.4225);
-    doc.curveTo(x + 1.2541, y0 + 1.4048, ox + 1.2759, y0 + 1.3762, ox + 1.2957, y0 + 1.3532);
-    doc.curveTo(x + 1.3155, y0 + 1.33, ox + 1.3221, y0 + 1.3134, ox + 1.3354, y0 + 1.2869);
-    doc.curveTo(x + 1.3486, y0 + 1.2605, ox + 1.3421, y0 + 1.2375, ox + 1.3321, y0 + 1.2176);
-    doc.curveTo(x + 1.3221, y0 + 1.1978, ox + 1.2429, y0 + 1.0028, ox + 1.21, y0 + 0.9234);
-    doc.curveTo(x + 1.1777, y0 + 0.8463, ox + 1.1451, y0 + 0.8568, ox + 1.1208, y0 + 0.8555);
-    doc.curveTo(x + 1.0978, y0 + 0.8544, ox + 1.0713, y0 + 0.8542, ox + 1.0448, y0 + 0.8542);
-    doc.curveTo(x + 1.0185, y0 + 0.8542, ox + 0.9755, y0 + 0.864, ox + 0.9393, y0 + 0.9037);
-    doc.curveTo(x + 0.903, y0 + 0.9433, ox + 0.8006, y0 + 1.0392, ox + 0.8006, y0 + 1.2341);
-    doc.curveTo(x + 0.8006, y0 + 1.429, ox + 0.9426, y0 + 1.6174, ox + 0.9623, y0 + 1.6439);
-    doc.curveTo(x + 0.9822, y0 + 1.6703, ox + 1.2417, y0 + 2.0704, ox + 1.639, y0 + 2.2419);
-    doc.curveTo(x + 1.7335, y0 + 2.2827, ox + 1.8072, y0 + 2.3071, ox + 1.8648, y0 + 2.3252);
-    doc.curveTo(x + 1.9597, y0 + 2.3555, ox + 2.0461, y0 + 2.3512, ox + 2.1142, y0 + 2.341);
-    doc.curveTo(x + 2.1903, y0 + 2.3296, ox + 2.3485, y0 + 2.2451, ox + 2.3816, y0 + 2.1526);
-    doc.curveTo(x + 2.4146, y0 + 2.0601, ox + 2.4146, y0 + 1.9808, ox + 2.4046, y0 + 1.9643);
-    doc.curveTo(x + 2.3948, y0 + 1.9478, ox + 2.3684, y0 + 1.9379, ox + 2.3287, y0 + 1.9181);
-    doc.moveTo(x + 1.6061, y0 + 2.9048);
-    doc.lineTo(ox + 1.6056, y0 + 2.9048);
-    doc.curveTo(x + 1.3696, y0 + 2.9048, ox + 1.138, y0 + 2.8413, ox + 0.935, y0 + 2.7211);
-    doc.lineTo(ox + 0.8869, y0 + 2.6926);
-    doc.lineTo(ox + 0.3883, y0 + 2.8235);
-    doc.lineTo(ox + 0.5213, y0 + 2.3372);
-    doc.lineTo(ox + 0.49, y0 + 2.2874);
-    doc.curveTo(x + 0.3581, y0 + 2.0773, ox + 0.2883, y0 + 1.8343, ox + 0.2887, y0 + 1.5863);
-    doc.curveTo(x + 0.2888, y0 + 0.8599, ox + 0.88, y0 + 0.2689, ox + 1.6066, y0 + 0.2689);
-    doc.curveTo(x + 1.9585, y0 + 0.2689, ox + 2.2894, y0 + 0.4062, ox + 2.538, y0 + 0.6551);
-    doc.curveTo(x + 2.7859, y0 + 0.9019, ox + 2.9248, y0 + 1.2376, ox + 2.9236, y0 + 1.5874);
-    doc.curveTo(x + 2.9233, y0 + 2.3138, ox + 2.3323, y0 + 2.9048, ox + 1.6061, y0 + 2.9048);
-    doc.moveTo(x + 2.7275, y0 + 0.466);
-    doc.curveTo(x + 2.4308, y0 + 0.1674, ox + 2.027, y0 + 0.0, ox + 1.6061, y0 + 0.0011);
-    doc.curveTo(x + 0.7324, y0 + 0.0011, ox + 0.0213, y0 + 0.7122, ox + 0.0209, y0 + 1.5862);
-    doc.curveTo(x + 0.0209, y0 + 1.8655, ox + 0.0938, y0 + 2.1382, ox + 0.2326, y0 + 2.3786);
-    doc.lineTo(ox + 0.0, y0 + 3.2);
-    doc.lineTo(ox + 0.8444, y0 + 2.9785);
-    doc.curveTo(x + 1.0771, y0 + 3.1055, ox + 1.3389, y0 + 3.1724, ox + 1.6045, y0 + 3.1725);
-    doc.lineTo(ox + 1.6052, y0 + 3.1725);
-    doc.curveTo(x + 2.4787, y0 + 3.1725, ox + 3.19, y0 + 2.4614, ox + 3.1904, y0 + 1.5874);
-    doc.curveTo(x + 3.1917, y0 + 1.1666, ox + 3.0246, y0 + 0.7629, ox + 2.7265, y0 + 0.466);
-    doc.lineTo(ox + 2.7275, y0 + 0.466);
-    doc.path("f");
+    doc.circle(x, y0 + 1.5, 1.5, "F");
+    doc.setFillColor(255, 255, 255);
+    doc.circle(x - 0.1, y0 + 1.3, 0.85, "F");
+    doc.triangle(x - 1.0, y0 + 2.4, x - 0.2, y0 + 2.4, x - 0.6, y0 + 2.9, "F");
+    doc.setFillColor(0, 0, 0);
   };
-  // Pin: teardrop
+  // Pin: teardrop (igual que antes — estaba bien)
   const icoPin = (x, y0) => {
-    doc.circle(x, y0 + 1.2, 1.2, 'F');
-    doc.triangle(x - 0.8, y0 + 2, x + 0.8, y0 + 2, x, y0 + 3.5, 'F');
+    doc.setFillColor(0, 0, 0);
+    doc.circle(x, y0 + 1.2, 1.2, "F");
+    doc.triangle(x - 0.8, y0 + 2.0, x + 0.8, y0 + 2.0, x, y0 + 3.5, "F");
     doc.setFillColor(255, 255, 255);
-    doc.circle(x, y0 + 1.2, 0.45, 'F');
+    doc.circle(x, y0 + 1.2, 0.45, "F");
     doc.setFillColor(0, 0, 0);
   };
-  // Doc: small rectangle with lines
+  // Doc: rectángulo con líneas (igual que antes — estaba bien)
   const icoDoc = (x, y0) => {
-    doc.roundedRect(x - 1.2, y0, 2.4, 3.2, 0.2, 0.2, 'F');
+    doc.setFillColor(0, 0, 0);
+    doc.roundedRect(x - 1.2, y0, 2.4, 3.2, 0.2, 0.2, "F");
     doc.setFillColor(255, 255, 255);
-    doc.rect(x - 0.8, y0 + 1.1, 1.6, 0.3, 'F');
-    doc.rect(x - 0.8, y0 + 1.7, 1.6, 0.3, 'F');
-    doc.rect(x - 0.8, y0 + 2.3, 1.1, 0.3, 'F');
+    doc.rect(x - 0.8, y0 + 1.1, 1.6, 0.3, "F");
+    doc.rect(x - 0.8, y0 + 1.7, 1.6, 0.3, "F");
+    doc.rect(x - 0.8, y0 + 2.3, 1.1, 0.3, "F");
     doc.setFillColor(0, 0, 0);
   };
-  // Calendar icon extraído del PDF original
+  // Calendar: más claro — rect con header y grilla
   const icoCal = (x, y0) => {
     doc.setFillColor(0, 0, 0);
-    doc.moveTo(x + 2.56, y0 + 0.32);
-    doc.lineTo(x + 2.4, y0 + 0.32);
-    doc.lineTo(x + 2.4, y0 + 0.0);
-    doc.lineTo(x + 2.08, y0 + 0.0);
-    doc.lineTo(x + 2.08, y0 + 0.32);
-    doc.lineTo(x + 0.8, y0 + 0.32);
-    doc.lineTo(x + 0.8, y0 + 0.0);
-    doc.lineTo(x + 0.48, y0 + 0.0);
-    doc.lineTo(x + 0.48, y0 + 0.32);
-    doc.lineTo(x + 0.32, y0 + 0.32);
-    doc.curveTo(x + 0.1424, y0 + 0.32, ox + 0.0016, y0 + 0.464, ox + 0.0016, y0 + 0.64);
-    doc.lineTo(x + 0.0, y0 + 2.88);
-    doc.curveTo(x + 0.0, y0 + 3.056, ox + 0.1424, y0 + 3.2, ox + 0.32, y0 + 3.2);
-    doc.lineTo(x + 2.56, y0 + 3.2);
-    doc.curveTo(x + 2.736, y0 + 3.2, ox + 2.88, y0 + 3.056, ox + 2.88, y0 + 2.88);
-    doc.lineTo(x + 2.88, y0 + 0.64);
-    doc.curveTo(x + 2.88, y0 + 0.464, ox + 2.736, y0 + 0.32, ox + 2.56, y0 + 0.32);
-    doc.moveTo(x + 2.56, y0 + 2.88);
-    doc.lineTo(x + 0.32, y0 + 2.88);
-    doc.lineTo(x + 0.32, y0 + 1.12);
-    doc.lineTo(x + 2.56, y0 + 1.12);
-    doc.lineTo(x + 2.56, y0 + 2.88);
-    doc.moveTo(x + 0.64, y0 + 1.44);
-    doc.lineTo(x + 1.44, y0 + 1.44);
-    doc.lineTo(x + 1.44, y0 + 2.24);
-    doc.lineTo(x + 0.64, y0 + 2.24);
-    doc.path("f");
+    doc.roundedRect(x - 1.3, y0 + 0.2, 2.6, 3.0, 0.25, 0.25, "F");
+    doc.setFillColor(255, 255, 255);
+    doc.rect(x - 1.3, y0 + 1.0, 2.6, 2.2, "F");
+    doc.setFillColor(0, 0, 0);
+    // líneas de días
+    doc.rect(x - 0.9, y0 + 1.4, 0.5, 0.4, "F");
+    doc.rect(x - 0.25, y0 + 1.4, 0.5, 0.4, "F");
+    doc.rect(x + 0.4, y0 + 1.4, 0.5, 0.4, "F");
+    doc.rect(x - 0.9, y0 + 2.0, 0.5, 0.4, "F");
+    doc.rect(x - 0.25, y0 + 2.0, 0.5, 0.4, "F");
+    doc.rect(x + 0.4, y0 + 2.0, 0.5, 0.4, "F");
+    // argollas
+    doc.setLineWidth(0.4);
+    doc.line(x - 0.6, y0 + 0.0, x - 0.6, y0 + 0.5);
+    doc.line(x + 0.6, y0 + 0.0, x + 0.6, y0 + 0.5);
+    doc.setFillColor(0, 0, 0);
   };
   if (cfg.cel) drawInfoLine(icoPhone, "Celular: " + cfg.cel);
   if (cfg.dom) drawInfoLine(icoPin, "Domicilio: " + cfg.dom);
