@@ -168,63 +168,57 @@ function generatePDF(d) {
   doc.text(sub, ML, y);
   y += 7;
 
-  // ── Info con íconos simples en negro ─────────────────────────────
-  const iconW = 3.0;
+  // ── Info con íconos — ZapfDingbats para celular, geométricos para el resto
   const drawInfoLine = (iconFn, text) => {
-    doc.setFillColor(0, 0, 0);
-    doc.setDrawColor(0, 0, 0);
-    iconFn(ML + 1.5, y - 2.5);
+    doc.setTextColor(0, 0, 0);
+    iconFn(ML + 1.5, y);
     tf("normal", 9.5, [0, 0, 0]);
-    doc.text(text, ML + iconW + 2, y);
+    doc.text(text, ML + 5.5, y);
     y += 5;
   };
 
-  // WhatsApp: círculo con burbuja de chat
+  // WhatsApp/Phone: ZapfDingbats char 37 (☎) — fuente nativa jsPDF
   const icoPhone = (x, y0) => {
-    doc.setFillColor(0, 0, 0);
-    doc.circle(x, y0 + 1.5, 1.5, "F");
-    doc.setFillColor(255, 255, 255);
-    doc.circle(x - 0.1, y0 + 1.3, 0.85, "F");
-    doc.triangle(x - 1.0, y0 + 2.4, x - 0.2, y0 + 2.4, x - 0.6, y0 + 2.9, "F");
-    doc.setFillColor(0, 0, 0);
+    doc.setFont("zapfdingbats");
+    doc.setFontSize(9);
+    doc.setTextColor(0, 0, 0);
+    doc.text(String.fromCharCode(37), x - 1, y0);
+    doc.setTextColor(0, 0, 0);
   };
-  // Pin: teardrop (igual que antes — estaba bien)
+  // Pin: teardrop geométrico
   const icoPin = (x, y0) => {
     doc.setFillColor(0, 0, 0);
-    doc.circle(x, y0 + 1.2, 1.2, "F");
-    doc.triangle(x - 0.8, y0 + 2.0, x + 0.8, y0 + 2.0, x, y0 + 3.5, "F");
+    doc.circle(x, y0 - 1.8, 1.2, "F");
+    doc.triangle(x - 0.8, y0 - 0.8, x + 0.8, y0 - 0.8, x, y0 + 0.8, "F");
     doc.setFillColor(255, 255, 255);
-    doc.circle(x, y0 + 1.2, 0.45, "F");
+    doc.circle(x, y0 - 1.8, 0.45, "F");
     doc.setFillColor(0, 0, 0);
   };
-  // Doc: rectángulo con líneas (igual que antes — estaba bien)
+  // Doc: rectángulo con líneas
   const icoDoc = (x, y0) => {
     doc.setFillColor(0, 0, 0);
-    doc.roundedRect(x - 1.2, y0, 2.4, 3.2, 0.2, 0.2, "F");
+    doc.roundedRect(x - 1.2, y0 - 3.0, 2.4, 3.2, 0.2, 0.2, "F");
     doc.setFillColor(255, 255, 255);
-    doc.rect(x - 0.8, y0 + 1.1, 1.6, 0.3, "F");
-    doc.rect(x - 0.8, y0 + 1.7, 1.6, 0.3, "F");
-    doc.rect(x - 0.8, y0 + 2.3, 1.1, 0.3, "F");
+    doc.rect(x - 0.8, y0 - 1.9, 1.6, 0.3, "F");
+    doc.rect(x - 0.8, y0 - 1.3, 1.6, 0.3, "F");
+    doc.rect(x - 0.8, y0 - 0.7, 1.1, 0.3, "F");
     doc.setFillColor(0, 0, 0);
   };
-  // Calendar: más claro — rect con header y grilla
+  // Cal: calendario limpio
   const icoCal = (x, y0) => {
     doc.setFillColor(0, 0, 0);
-    doc.roundedRect(x - 1.3, y0 + 0.2, 2.6, 3.0, 0.25, 0.25, "F");
+    doc.roundedRect(x - 1.3, y0 - 2.8, 2.6, 3.0, 0.25, 0.25, "F");
     doc.setFillColor(255, 255, 255);
-    doc.rect(x - 1.3, y0 + 1.0, 2.6, 2.2, "F");
+    doc.rect(x - 1.3, y0 - 2.0, 2.6, 2.2, "F");
     doc.setFillColor(0, 0, 0);
-    // líneas de días
-    doc.rect(x - 0.9, y0 + 1.4, 0.5, 0.4, "F");
-    doc.rect(x - 0.25, y0 + 1.4, 0.5, 0.4, "F");
-    doc.rect(x + 0.4, y0 + 1.4, 0.5, 0.4, "F");
-    doc.rect(x - 0.9, y0 + 2.0, 0.5, 0.4, "F");
-    doc.rect(x - 0.25, y0 + 2.0, 0.5, 0.4, "F");
-    doc.rect(x + 0.4, y0 + 2.0, 0.5, 0.4, "F");
-    // argollas
-    doc.setLineWidth(0.4);
-    doc.line(x - 0.6, y0 + 0.0, x - 0.6, y0 + 0.5);
-    doc.line(x + 0.6, y0 + 0.0, x + 0.6, y0 + 0.5);
+    doc.rect(x - 0.9, y0 - 1.6, 0.5, 0.4, "F");
+    doc.rect(x - 0.25, y0 - 1.6, 0.5, 0.4, "F");
+    doc.rect(x + 0.4, y0 - 1.6, 0.5, 0.4, "F");
+    doc.rect(x - 0.9, y0 - 1.0, 0.5, 0.4, "F");
+    doc.rect(x - 0.25, y0 - 1.0, 0.5, 0.4, "F");
+    doc.setLineWidth(0.35);
+    doc.line(x - 0.6, y0 - 3.0, x - 0.6, y0 - 2.6);
+    doc.line(x + 0.6, y0 - 3.0, x + 0.6, y0 - 2.6);
     doc.setFillColor(0, 0, 0);
   };
   if (cfg.cel) drawInfoLine(icoPhone, "Celular: " + cfg.cel);
