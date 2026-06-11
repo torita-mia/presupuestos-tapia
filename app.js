@@ -168,22 +168,55 @@ function generatePDF(d) {
   doc.text(sub, ML, y);
   y += 7;
 
-  // ── Info sin íconos — texto limpio
-  tf("normal", 9.5, [0, 0, 0]);
-  if (cfg.cel) {
-    doc.text("Celular: " + cfg.cel, ML + 4, y);
+  // ── Info con íconos geométricos negros ──────────────────────────
+  const drawInfoLine = (iconFn, text) => {
+    doc.setFillColor(0, 0, 0);
+    doc.setDrawColor(0, 0, 0);
+    iconFn(ML + 1.2, y - 2.2);
+    tf("normal", 9.5, [0, 0, 0]);
+    doc.text(text, ML + 5.5, y);
     y += 5;
-  }
-  if (cfg.dom) {
-    doc.text("Domicilio: " + cfg.dom, ML + 4, y);
-    y += 5;
-  }
-  if (cfg.cuit) {
-    doc.text("CUIT: " + cfg.cuit, ML + 4, y);
-    y += 5;
-  }
-  doc.text("Fecha: " + d.fecha, ML + 4, y);
-  y += 5;
+  };
+  // Phone: filled circle
+  const icoPhone = (x, y0) => {
+    doc.circle(x, y0 + 1.5, 1.5, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.circle(x, y0 + 1.5, 0.6, 'F');
+    doc.setFillColor(0, 0, 0);
+  };
+  // Pin: teardrop
+  const icoPin = (x, y0) => {
+    doc.circle(x, y0 + 1.2, 1.2, 'F');
+    doc.triangle(x - 0.8, y0 + 2, x + 0.8, y0 + 2, x, y0 + 3.5, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.circle(x, y0 + 1.2, 0.45, 'F');
+    doc.setFillColor(0, 0, 0);
+  };
+  // Doc: small rectangle with lines
+  const icoDoc = (x, y0) => {
+    doc.roundedRect(x - 1.2, y0, 2.4, 3.2, 0.2, 0.2, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(x - 0.8, y0 + 1.1, 1.6, 0.3, 'F');
+    doc.rect(x - 0.8, y0 + 1.7, 1.6, 0.3, 'F');
+    doc.rect(x - 0.8, y0 + 2.3, 1.1, 0.3, 'F');
+    doc.setFillColor(0, 0, 0);
+  };
+  // Cal: small calendar
+  const icoCal = (x, y0) => {
+    doc.roundedRect(x - 1.2, y0 + 0.4, 2.4, 2.8, 0.2, 0.2, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(x - 1.2, y0 + 1.1, 2.4, 2.1, 'F');
+    doc.setFillColor(0, 0, 0);
+    doc.rect(x - 0.8, y0 + 1.6, 0.5, 0.4, 'F');
+    doc.rect(x - 0.1, y0 + 1.6, 0.5, 0.4, 'F');
+    doc.rect(x + 0.6, y0 + 1.6, 0.5, 0.4, 'F');
+    doc.rect(x - 0.8, y0 + 2.3, 0.5, 0.4, 'F');
+    doc.rect(x - 0.1, y0 + 2.3, 0.5, 0.4, 'F');
+  };
+  if (cfg.cel) drawInfoLine(icoPhone, "Celular: " + cfg.cel);
+  if (cfg.dom) drawInfoLine(icoPin, "Domicilio: " + cfg.dom);
+  if (cfg.cuit) drawInfoLine(icoDoc, "CUIT: " + cfg.cuit);
+  drawInfoLine(icoCal, "Fecha: " + d.fecha);
   y += 3;
   doc.setDrawColor(160, 160, 160);
   doc.setLineWidth(0.4);
@@ -1176,6 +1209,12 @@ function App() {
   const [view, setView] = useState("form");
   const [loadData, setLoadData] = useState(null);
   const [tick, setTick] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
   const goForm = d => {
     setLoadData(d);
     setView("form");
@@ -1194,6 +1233,162 @@ function App() {
     icon: "⚙️",
     label: "Mis datos"
   }];
+  const nb = (v, ic, lbl) => /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      if (v === "form") setLoadData(null);
+      setView(v);
+    },
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 9,
+      padding: "10px 12px",
+      borderRadius: 8,
+      cursor: "pointer",
+      fontSize: 13,
+      fontWeight: 500,
+      border: "none",
+      width: "100%",
+      textAlign: "left",
+      fontFamily: "inherit",
+      background: view === v ? "rgba(255,255,255,.15)" : "transparent",
+      color: view === v ? "#fff" : "rgba(255,255,255,.62)"
+    }
+  }, ic, " ", lbl);
+  const recents = getAll().slice(0, 5);
+  const Sidebar = () => /*#__PURE__*/React.createElement("aside", {
+    style: {
+      width: 240,
+      flexShrink: 0,
+      background: "#2B4C3F",
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "20px 16px 14px",
+      borderBottom: "1px solid rgba(255,255,255,.1)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 16,
+      fontWeight: 700,
+      color: "#fff"
+    }
+  }, "Presupuestos"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "rgba(255,255,255,.4)",
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      marginTop: 2
+    }
+  }, "Servicios de construcci\xF3n")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "10px 8px",
+      display: "flex",
+      flexDirection: "column",
+      gap: 3
+    }
+  }, nb("form", "✏️", "Nuevo presupuesto"), nb("history", "📋", "Historial"), nb("config", "⚙️", "Mis datos")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "12px 12px 4px",
+      fontSize: 10,
+      fontWeight: 600,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      color: "rgba(255,255,255,.28)"
+    }
+  }, "Recientes"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: "auto",
+      padding: "0 8px 8px"
+    }
+  }, recents.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "rgba(255,255,255,.28)",
+      padding: 10,
+      textAlign: "center",
+      lineHeight: 1.6
+    }
+  }, "Los presupuestos guardados aparecen ac\xE1."), recents.map(p => /*#__PURE__*/React.createElement("div", {
+    key: p.id,
+    onClick: () => goForm(p),
+    style: {
+      padding: "8px 10px",
+      borderRadius: 8,
+      cursor: "pointer",
+      marginBottom: 2
+    },
+    onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,.08)",
+    onMouseLeave: e => e.currentTarget.style.background = "transparent"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 500,
+      color: "rgba(255,255,255,.8)",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
+    }
+  }, p.dest || "Sin cliente"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "rgba(255,255,255,.35)",
+      marginTop: 1,
+      display: "flex",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, p.fecha), /*#__PURE__*/React.createElement("span", null, p.total ? fP(p.total) : "—"))))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setLoadData(null);
+      setView("form");
+    },
+    style: {
+      margin: "0 8px 12px",
+      padding: 10,
+      background: "#C8873A",
+      color: "#fff",
+      border: "none",
+      borderRadius: 8,
+      fontSize: 13,
+      fontWeight: 600,
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
+  }, "+ Nuevo presupuesto"));
+  if (!isMobile) {
+    // ── DESKTOP: sidebar + content
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        height: "100vh",
+        fontFamily: "system-ui,-apple-system,sans-serif",
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement(Sidebar, null), /*#__PURE__*/React.createElement("main", {
+      style: {
+        flex: 1,
+        minWidth: 0,
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        background: "#F0EEE9"
+      }
+    }, view === "form" && /*#__PURE__*/React.createElement(FormView, {
+      key: tick + ((loadData === null || loadData === void 0 ? void 0 : loadData.id) || "new"),
+      loadData: loadData,
+      onSaved: onSaved
+    }), view === "history" && /*#__PURE__*/React.createElement(HistoryView, {
+      key: tick,
+      onLoad: p => goForm(p)
+    }), view === "config" && /*#__PURE__*/React.createElement(ConfigView, null)));
+  }
+
+  // ── MOBILE: full screen + bottom tabs
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -1229,9 +1424,7 @@ function App() {
   }, tabs.map(tab => /*#__PURE__*/React.createElement("button", {
     key: tab.id,
     onClick: () => {
-      if (tab.id === "form") {
-        setLoadData(null);
-      }
+      if (tab.id === "form") setLoadData(null);
       setView(tab.id);
     },
     style: {
