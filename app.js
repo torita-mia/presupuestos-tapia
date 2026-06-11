@@ -177,12 +177,56 @@ function generatePDF(d) {
     doc.text(text, ML + 5.5, y);
     y += 5;
   };
-  // Phone: filled circle
+  // WhatsApp icon extraído del PDF original
   const icoPhone = (x, y0) => {
-    doc.circle(x, y0 + 1.5, 1.5, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.circle(x, y0 + 1.5, 0.6, 'F');
     doc.setFillColor(0, 0, 0);
+    doc.moveTo(ox + 2.3288, oy + 1.9181);
+    doc.curveTo(ox + 2.2892, oy + 1.8982, ox + 2.0945, oy + 1.8025, ox + 2.0582, oy + 1.7891);
+    doc.curveTo(ox + 2.0218, oy + 1.776, ox + 1.9954, oy + 1.7694, ox + 1.9689, oy + 1.8092);
+    doc.curveTo(ox + 1.9427, oy + 1.8487, ox + 1.8667, oy + 1.9379, ox + 1.8436, oy + 1.9643);
+    doc.curveTo(ox + 1.8206, oy + 1.9908, ox + 1.7974, oy + 1.994, ox + 1.7578, oy + 1.9743);
+    doc.curveTo(ox + 1.7182, oy + 1.9543, ox + 1.5905, oy + 1.9126, ox + 1.4392, oy + 1.7777);
+    doc.curveTo(ox + 1.3215, oy + 1.6727, ox + 1.242, oy + 1.543, ox + 1.2189, oy + 1.5032);
+    doc.curveTo(ox + 1.1959, oy + 1.4637, ox + 1.2165, oy + 1.4422, ox + 1.2362, oy + 1.4225);
+    doc.curveTo(ox + 1.2541, oy + 1.4048, ox + 1.2759, oy + 1.3762, ox + 1.2957, oy + 1.3532);
+    doc.curveTo(ox + 1.3155, oy + 1.33, ox + 1.3221, oy + 1.3134, ox + 1.3354, oy + 1.2869);
+    doc.curveTo(ox + 1.3486, oy + 1.2605, ox + 1.3421, oy + 1.2375, ox + 1.3321, oy + 1.2176);
+    doc.curveTo(ox + 1.3221, oy + 1.1978, ox + 1.2429, oy + 1.0028, ox + 1.21, oy + 0.9234);
+    doc.curveTo(ox + 1.1777, oy + 0.8463, ox + 1.1451, oy + 0.8568, ox + 1.1208, oy + 0.8555);
+    doc.curveTo(ox + 1.0978, oy + 0.8544, ox + 1.0713, oy + 0.8542, ox + 1.0448, oy + 0.8542);
+    doc.curveTo(ox + 1.0185, oy + 0.8542, ox + 0.9755, oy + 0.864, ox + 0.9393, oy + 0.9037);
+    doc.curveTo(ox + 0.903, oy + 0.9433, ox + 0.8006, oy + 1.0392, ox + 0.8006, oy + 1.2341);
+    doc.curveTo(ox + 0.8006, oy + 1.429, ox + 0.9426, oy + 1.6174, ox + 0.9623, oy + 1.6439);
+    doc.curveTo(ox + 0.9822, oy + 1.6703, ox + 1.2417, oy + 2.0704, ox + 1.639, oy + 2.2419);
+    doc.curveTo(ox + 1.7335, oy + 2.2827, ox + 1.8072, oy + 2.3071, ox + 1.8648, oy + 2.3252);
+    doc.curveTo(ox + 1.9597, oy + 2.3555, ox + 2.0461, oy + 2.3512, ox + 2.1142, oy + 2.341);
+    doc.curveTo(ox + 2.1903, oy + 2.3296, ox + 2.3485, oy + 2.2451, ox + 2.3816, oy + 2.1526);
+    doc.curveTo(ox + 2.4146, oy + 2.0601, ox + 2.4146, oy + 1.9808, ox + 2.4046, oy + 1.9643);
+    doc.curveTo(ox + 2.3948, oy + 1.9478, ox + 2.3684, oy + 1.9379, ox + 2.3287, oy + 1.9181);
+    doc.moveTo(ox + 1.6061, oy + 2.9048);
+    doc.lineTo(ox + 1.6056, oy + 2.9048);
+    doc.curveTo(ox + 1.3696, oy + 2.9048, ox + 1.138, oy + 2.8413, ox + 0.935, oy + 2.7211);
+    doc.lineTo(ox + 0.8869, oy + 2.6926);
+    doc.lineTo(ox + 0.3883, oy + 2.8235);
+    doc.lineTo(ox + 0.5213, oy + 2.3372);
+    doc.lineTo(ox + 0.49, oy + 2.2874);
+    doc.curveTo(ox + 0.3581, oy + 2.0773, ox + 0.2883, oy + 1.8343, ox + 0.2887, oy + 1.5863);
+    doc.curveTo(ox + 0.2888, oy + 0.8599, ox + 0.88, oy + 0.2689, ox + 1.6066, oy + 0.2689);
+    doc.curveTo(ox + 1.9585, oy + 0.2689, ox + 2.2894, oy + 0.4062, ox + 2.538, oy + 0.6551);
+    doc.curveTo(ox + 2.7859, oy + 0.9019, ox + 2.9248, oy + 1.2376, ox + 2.9236, oy + 1.5874);
+    doc.curveTo(ox + 2.9233, oy + 2.3138, ox + 2.3323, oy + 2.9048, ox + 1.6061, oy + 2.9048);
+    doc.moveTo(ox + 2.7275, oy + 0.466);
+    doc.curveTo(ox + 2.4308, oy + 0.1674, ox + 2.027, oy + 0.0, ox + 1.6061, oy + 0.0011);
+    doc.curveTo(ox + 0.7324, oy + 0.0011, ox + 0.0213, oy + 0.7122, ox + 0.0209, oy + 1.5862);
+    doc.curveTo(ox + 0.0209, oy + 1.8655, ox + 0.0938, oy + 2.1382, ox + 0.2326, oy + 2.3786);
+    doc.lineTo(ox + 0.0, oy + 3.2);
+    doc.lineTo(ox + 0.8444, oy + 2.9785);
+    doc.curveTo(ox + 1.0771, oy + 3.1055, ox + 1.3389, oy + 3.1724, ox + 1.6045, oy + 3.1725);
+    doc.lineTo(ox + 1.6052, oy + 3.1725);
+    doc.curveTo(ox + 2.4787, oy + 3.1725, ox + 3.19, oy + 2.4614, ox + 3.1904, oy + 1.5874);
+    doc.curveTo(ox + 3.1917, oy + 1.1666, ox + 3.0246, oy + 0.7629, ox + 2.7265, oy + 0.466);
+    doc.lineTo(ox + 2.7275, oy + 0.466);
+    doc.path("f");
   };
   // Pin: teardrop
   const icoPin = (x, y0) => {
@@ -201,17 +245,36 @@ function generatePDF(d) {
     doc.rect(x - 0.8, y0 + 2.3, 1.1, 0.3, 'F');
     doc.setFillColor(0, 0, 0);
   };
-  // Cal: small calendar
+  // Calendar icon extraído del PDF original
   const icoCal = (x, y0) => {
-    doc.roundedRect(x - 1.2, y0 + 0.4, 2.4, 2.8, 0.2, 0.2, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.rect(x - 1.2, y0 + 1.1, 2.4, 2.1, 'F');
     doc.setFillColor(0, 0, 0);
-    doc.rect(x - 0.8, y0 + 1.6, 0.5, 0.4, 'F');
-    doc.rect(x - 0.1, y0 + 1.6, 0.5, 0.4, 'F');
-    doc.rect(x + 0.6, y0 + 1.6, 0.5, 0.4, 'F');
-    doc.rect(x - 0.8, y0 + 2.3, 0.5, 0.4, 'F');
-    doc.rect(x - 0.1, y0 + 2.3, 0.5, 0.4, 'F');
+    doc.moveTo(ox + 2.56, oy + 0.32);
+    doc.lineTo(ox + 2.4, oy + 0.32);
+    doc.lineTo(ox + 2.4, oy + 0.0);
+    doc.lineTo(ox + 2.08, oy + 0.0);
+    doc.lineTo(ox + 2.08, oy + 0.32);
+    doc.lineTo(ox + 0.8, oy + 0.32);
+    doc.lineTo(ox + 0.8, oy + 0.0);
+    doc.lineTo(ox + 0.48, oy + 0.0);
+    doc.lineTo(ox + 0.48, oy + 0.32);
+    doc.lineTo(ox + 0.32, oy + 0.32);
+    doc.curveTo(ox + 0.1424, oy + 0.32, ox + 0.0016, oy + 0.464, ox + 0.0016, oy + 0.64);
+    doc.lineTo(ox + 0.0, oy + 2.88);
+    doc.curveTo(ox + 0.0, oy + 3.056, ox + 0.1424, oy + 3.2, ox + 0.32, oy + 3.2);
+    doc.lineTo(ox + 2.56, oy + 3.2);
+    doc.curveTo(ox + 2.736, oy + 3.2, ox + 2.88, oy + 3.056, ox + 2.88, oy + 2.88);
+    doc.lineTo(ox + 2.88, oy + 0.64);
+    doc.curveTo(ox + 2.88, oy + 0.464, ox + 2.736, oy + 0.32, ox + 2.56, oy + 0.32);
+    doc.moveTo(ox + 2.56, oy + 2.88);
+    doc.lineTo(ox + 0.32, oy + 2.88);
+    doc.lineTo(ox + 0.32, oy + 1.12);
+    doc.lineTo(ox + 2.56, oy + 1.12);
+    doc.lineTo(ox + 2.56, oy + 2.88);
+    doc.moveTo(ox + 0.64, oy + 1.44);
+    doc.lineTo(ox + 1.44, oy + 1.44);
+    doc.lineTo(ox + 1.44, oy + 2.24);
+    doc.lineTo(ox + 0.64, oy + 2.24);
+    doc.path("f");
   };
   if (cfg.cel) drawInfoLine(icoPhone, "Celular: " + cfg.cel);
   if (cfg.dom) drawInfoLine(icoPin, "Domicilio: " + cfg.dom);
