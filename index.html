@@ -1535,7 +1535,10 @@ function SummaryElec({
 function HistoryView({
   onLoad
 }) {
-  const [list, setList] = useState(getAll());
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    setList(getAll());
+  }, []);
   const del = id => {
     if (!confirm("¿Eliminás este presupuesto?")) return;
     saveAll(getAll().filter(p => p.id !== id));
@@ -1981,239 +1984,265 @@ function App() {
   // ── Welcome screen ───────────────────────────────────────────────
   const hora = new Date().getHours();
   const saludo = hora < 12 ? "¡Buenos días" : hora < 19 ? "¡Buenas tardes" : "¡Buenas noches";
-  const Welcome = () => /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      background: "linear-gradient(160deg,#2B4C3F 0%,#1a3028 100%)",
-      fontFamily: "system-ui,-apple-system,sans-serif",
-      color: "#fff",
-      overflowY: "auto",
-      WebkitOverflowScrolling: "touch"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "40px 28px 24px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 56,
-      height: 56,
-      background: "rgba(255,255,255,.12)",
-      borderRadius: 16,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: 26,
-      marginBottom: 20
-    }
-  }, "📄"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 26,
-      fontWeight: 700,
-      lineHeight: 1.25,
-      marginBottom: 6
-    }
-  }, saludo, ",", /*#__PURE__*/React.createElement("br", null), "José Antonio!"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 15,
-      color: "rgba(255,255,255,.55)",
-      lineHeight: 1.5
-    }
-  }, "¿Qué querés hacer hoy?")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: "0 28px 24px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      fontWeight: 600,
-      color: "rgba(255,255,255,.4)",
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      marginBottom: 12
-    }
-  }, "Nuevo presupuesto"), [{
-    icon: "🏗️",
-    title: "Presupuesto de Obra",
-    sub: "Construcción, impermeabilización, mantenimiento",
-    color: "#2B4C3F",
-    action: () => startForm('obra')
-  }, {
-    icon: "⚡",
-    title: "Presupuesto Eléctrico",
-    sub: "Mano de obra técnica eléctrica",
-    color: "#C8873A",
-    action: () => startForm('electrico')
-  }].map((opt, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: opt.action,
-    style: {
-      width: "100%",
-      marginBottom: 10,
-      padding: "16px 18px",
-      background: "rgba(255,255,255,.08)",
-      border: "1px solid rgba(255,255,255,.12)",
-      borderRadius: 14,
-      cursor: "pointer",
-      fontFamily: "inherit",
-      display: "flex",
-      alignItems: "center",
-      gap: 14,
-      textAlign: "left",
-      touchAction: "manipulation"
-    },
-    onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,.15)",
-    onMouseLeave: e => e.currentTarget.style.background = "rgba(255,255,255,.08)"
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 26,
-      flexShrink: 0
-    }
-  }, opt.icon), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 15,
-      fontWeight: 700,
-      color: "#fff",
-      marginBottom: 2
-    }
-  }, opt.title), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12.5,
-      color: "rgba(255,255,255,.5)"
-    }
-  }, opt.sub)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "rgba(255,255,255,.3)",
-      fontSize: 18
-    }
-  }, "›"))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      fontWeight: 600,
-      color: "rgba(255,255,255,.4)",
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      margin: "20px 0 12px"
-    }
-  }, "Gestión"), [{
-    icon: "📋",
-    title: "Historial",
-    sub: "Revisá y descargá presupuestos anteriores",
-    action: () => setView("history")
-  }, {
-    icon: "⚙️",
-    title: "Mis datos",
-    sub: "Logo y datos del encabezado",
-    action: () => setView("config")
-  }].map((opt, i) => /*#__PURE__*/React.createElement("button", {
-    key: i,
-    onClick: opt.action,
-    style: {
-      width: "100%",
-      marginBottom: 10,
-      padding: "14px 18px",
-      background: "rgba(255,255,255,.05)",
-      border: "1px solid rgba(255,255,255,.08)",
-      borderRadius: 12,
-      cursor: "pointer",
-      fontFamily: "inherit",
-      display: "flex",
-      alignItems: "center",
-      gap: 14,
-      textAlign: "left",
-      touchAction: "manipulation"
-    },
-    onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,.1)",
-    onMouseLeave: e => e.currentTarget.style.background = "rgba(255,255,255,.05)"
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 22,
-      flexShrink: 0
-    }
-  }, opt.icon), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 14,
-      fontWeight: 600,
-      color: "#fff",
-      marginBottom: 1
-    }
-  }, opt.title), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "rgba(255,255,255,.45)"
-    }
-  }, opt.sub)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "rgba(255,255,255,.3)",
-      fontSize: 18
-    }
-  }, "›"))), getAll().length > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      fontWeight: 600,
-      color: "rgba(255,255,255,.4)",
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      margin: "20px 0 12px"
-    }
-  }, "Recientes"), getAll().slice(0, 3).map(p => /*#__PURE__*/React.createElement("button", {
-    key: p.id,
-    onClick: () => loadPresupuesto(p),
-    style: {
-      width: "100%",
-      marginBottom: 8,
-      padding: "12px 16px",
-      background: "rgba(255,255,255,.05)",
-      border: "1px solid rgba(255,255,255,.08)",
-      borderRadius: 10,
-      cursor: "pointer",
-      fontFamily: "inherit",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      touchAction: "manipulation"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "left"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "rgba(255,255,255,.4)",
-      marginBottom: 2
-    }
-  }, p.tipo === 'electrico' ? '⚡ Eléctrico' : '🏗 Obra'), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 600,
-      color: "#fff"
-    }
-  }, p.dest || p.destino || "Sin cliente"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "rgba(255,255,255,.4)",
-      marginTop: 1
-    }
-  }, p.fecha)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: "#C8873A"
-    }
-  }, p.total ? fP(p.total) : "—"))))));
-
-  // ── Main content router ──────────────────────────────────────────
+  const Welcome = () => {
+    const recents = getAll().slice(0, 3);
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100%",
+        background: "linear-gradient(160deg,#2B4C3F 0%,#1a3028 100%)",
+        fontFamily: "system-ui,-apple-system,sans-serif",
+        color: "#fff",
+        overflowY: "auto",
+        WebkitOverflowScrolling: "touch"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "44px 28px 28px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 58,
+        height: 58,
+        background: "rgba(255,255,255,.12)",
+        borderRadius: 16,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 28,
+        marginBottom: 22
+      }
+    }, "📄"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 27,
+        fontWeight: 800,
+        lineHeight: 1.2,
+        marginBottom: 6
+      }
+    }, saludo, ",", /*#__PURE__*/React.createElement("br", null), "José Antonio!"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 15,
+        color: "rgba(255,255,255,.55)",
+        lineHeight: 1.5
+      }
+    }, "¿En qué te puedo ayudar hoy?")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "0 20px 8px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: "rgba(255,255,255,.4)",
+        textTransform: "uppercase",
+        letterSpacing: 1,
+        marginBottom: 12,
+        paddingLeft: 4
+      }
+    }, "Nuevo presupuesto"), [{
+      icon: "🏗️",
+      title: "Presupuesto de Obra",
+      sub: "Construcción, impermeabilización, mantenimiento",
+      color: "#2B4C3F",
+      action: () => startForm("obra")
+    }, {
+      icon: "⚡",
+      title: "Presupuesto Eléctrico",
+      sub: "Mano de obra técnica eléctrica",
+      color: "#C8873A",
+      action: () => startForm("electrico")
+    }].map((opt, i) => /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: opt.action,
+      style: {
+        width: "100%",
+        marginBottom: 10,
+        padding: "16px 18px",
+        background: "rgba(255,255,255,.09)",
+        border: "1px solid rgba(255,255,255,.13)",
+        borderRadius: 14,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        textAlign: "left",
+        touchAction: "manipulation"
+      },
+      onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,.16)",
+      onMouseLeave: e => e.currentTarget.style.background = "rgba(255,255,255,.09)"
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 28,
+        flexShrink: 0,
+        width: 36,
+        textAlign: "center"
+      }
+    }, opt.icon), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 15,
+        fontWeight: 700,
+        color: "#fff",
+        marginBottom: 2
+      }
+    }, opt.title), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12.5,
+        color: "rgba(255,255,255,.5)"
+      }
+    }, opt.sub)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "rgba(255,255,255,.3)",
+        fontSize: 20
+      }
+    }, "›")))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "4px 20px 8px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: "rgba(255,255,255,.4)",
+        textTransform: "uppercase",
+        letterSpacing: 1,
+        marginBottom: 12,
+        paddingLeft: 4
+      }
+    }, "Gestión"), [{
+      icon: "📋",
+      title: "Historial",
+      sub: "Revisá y descargá presupuestos anteriores",
+      action: () => setView("history")
+    }, {
+      icon: "⚙️",
+      title: "Mis datos",
+      sub: "Logo y datos del encabezado",
+      action: () => setView("config")
+    }].map((opt, i) => /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: opt.action,
+      style: {
+        width: "100%",
+        marginBottom: 10,
+        padding: "14px 18px",
+        background: "rgba(255,255,255,.06)",
+        border: "1px solid rgba(255,255,255,.09)",
+        borderRadius: 12,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        textAlign: "left",
+        touchAction: "manipulation"
+      },
+      onMouseEnter: e => e.currentTarget.style.background = "rgba(255,255,255,.12)",
+      onMouseLeave: e => e.currentTarget.style.background = "rgba(255,255,255,.06)"
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 24,
+        flexShrink: 0,
+        width: 36,
+        textAlign: "center"
+      }
+    }, opt.icon), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 600,
+        color: "#fff",
+        marginBottom: 1
+      }
+    }, opt.title), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "rgba(255,255,255,.45)"
+      }
+    }, opt.sub)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "rgba(255,255,255,.3)",
+        fontSize: 20
+      }
+    }, "›")))), recents.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: "4px 20px 40px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: "rgba(255,255,255,.4)",
+        textTransform: "uppercase",
+        letterSpacing: 1,
+        marginBottom: 12,
+        paddingLeft: 4
+      }
+    }, "Recientes"), recents.map(p => /*#__PURE__*/React.createElement("button", {
+      key: p.id,
+      onClick: () => loadPresupuesto(p),
+      style: {
+        width: "100%",
+        marginBottom: 8,
+        padding: "13px 16px",
+        background: "rgba(255,255,255,.05)",
+        border: "1px solid rgba(255,255,255,.08)",
+        borderRadius: 10,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        touchAction: "manipulation"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "left"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "rgba(255,255,255,.4)",
+        marginBottom: 3
+      }
+    }, p.tipo === "electrico" ? "⚡ Eléctrico" : "🏗️ Obra"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: "#fff"
+      }
+    }, p.dest || p.destino || "Sin cliente"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "rgba(255,255,255,.4)",
+        marginTop: 2
+      }
+    }, p.fecha)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: "#C8873A",
+        marginBottom: 3
+      }
+    }, p.total ? fP(p.total) : "—"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "rgba(255,255,255,.35)"
+      }
+    }, "Ver PDF ›"))))));
+  };
   const MainContent = () => {
     if (view === "welcome") return /*#__PURE__*/React.createElement(Welcome, null);
     if (view === "history") return /*#__PURE__*/React.createElement(HistoryView, {
